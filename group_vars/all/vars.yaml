@@ -18,3 +18,8 @@ api_key_path: ./api.key
 api_cert_path: ./api.crt
 ui_key_path: ./ui.key
 ui_cert_path: ./ui.crt
+
+# Let's Encrypt
+letsencrypt_account_key_path: ./account.key
+acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
+# acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging
