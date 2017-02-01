@@ -1,0 +1,4 @@
+---
+
+# Namespace into which the application should be deployed
+namespace: master

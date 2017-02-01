@@ -1,0 +1,9 @@
+---
+###########################
+# Uninstall DAVe application
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - delete-namespace

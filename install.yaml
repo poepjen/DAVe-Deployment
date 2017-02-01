@@ -1,0 +1,9 @@
+---
+###########################
+# Install DAVe application
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - namespace
