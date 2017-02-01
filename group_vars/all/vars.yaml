@@ -8,7 +8,13 @@ dns_zone: dbg-devops.com
 ui_dns: master.snapshot.dave.dbg-devops.com
 api_dns: api.master.snapshot.dave.dbg-devops.com
 
+# Application secrets
+auth_salt: DAVe-Salt
+
+# SSL certificates
+jwt_keystore_path: ./jwt.keystore
+jwt_keystore_password: "123456"
 api_key_path: ./api.key
-api_crt_path: ./api.crt
+api_cert_path: ./api.crt
 ui_key_path: ./ui.key
-ui_crt_path: ./ui.crt
+ui_cert_path: ./ui.crt
