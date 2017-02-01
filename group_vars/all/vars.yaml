@@ -2,3 +2,6 @@
 
 # Namespace into which the application should be deployed
 namespace: master
+
+# Domain name for the application
+api_dns: api.master.snapshot.dave.dbg-devops.com

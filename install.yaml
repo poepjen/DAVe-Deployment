@@ -7,3 +7,4 @@
   connection: local
   roles:
     - namespace
+    - ui

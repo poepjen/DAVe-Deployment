@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dave-ui
+  namespace: {{ namespace }}
+  labels:
+    app: dave
+    layer: frontend
+    project: dave
+data:
+  dave.api: "https://{{ api_dns }}"
+  http.compression: "1"

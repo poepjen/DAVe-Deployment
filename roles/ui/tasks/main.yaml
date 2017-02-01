@@ -1,0 +1,95 @@
+---
+
+####################
+# Install DAVe-UI
+####################
+
+# Render templates
+
+- name: Generate service
+  template:
+    src: ui.service.yaml.j2
+    dest: /tmp/ui.service.yaml
+    mode: 0744
+  become: false
+
+- name: Generate config map
+  template:
+    src: ui.config-map.yaml.j2
+    dest: /tmp/ui.config-map.yaml
+    mode: 0744
+  become: false
+
+- name: Generate secret
+  template:
+    src: ui.secret.yaml.j2
+    dest: /tmp/ui.secret.yaml
+    mode: 0744
+  become: false
+
+- name: Generate deployment
+  template:
+    src: ui.deployment.yaml.j2
+    dest: /tmp/ui.deployment.yaml
+    mode: 0744
+  become: false
+
+# Add service
+
+- name: Find out if service already exists
+  command: "kubectl --namespace {{ namespace }} get service dave-ui -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Create the service
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.service.yaml"
+  when: get_service|failed
+
+- name: Replace the service
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.service.yaml"
+  when: get_service|succeeded
+
+# Add config-map
+
+- name: Find out if config-map already exists
+  command: "kubectl --namespace {{ namespace }} get cm dave-ui -o json"
+  register: get_cm
+  ignore_errors: true
+
+- name: Create the config-map
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.config-map.yaml"
+  when: get_cm|failed
+
+- name: Replace the config-map
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.config-map.yaml"
+  when: get_cm|succeeded
+
+# Add secret
+
+- name: Find out if secret already exists
+  command: "kubectl --namespace {{ namespace }} get secret dave-ui -o json"
+  register: get_secret
+  ignore_errors: true
+
+- name: Create the secret
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.secret.yaml"
+  when: get_secret|failed
+
+- name: Replace the secret
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.secret.yaml"
+  when: get_secret|succeeded
+
+# Add deployment
+
+- name: Find out if deployment already exists
+  command: "kubectl --namespace {{ namespace }} get deployment dave-ui -o json"
+  register: get_deployment
+  ignore_errors: true
+
+- name: Create the deployment
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.deployment.yaml"
+  when: get_deployment|failed
+
+- name: Replace the deployment
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.deployment.yaml"
+  when: get_deployment|succeeded

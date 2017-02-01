@@ -7,3 +7,4 @@
   connection: local
   roles:
     - delete-namespace
+    - delete-ui
