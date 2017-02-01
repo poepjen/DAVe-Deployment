@@ -8,3 +8,4 @@
   roles:
     - delete-namespace
     - delete-ui
+    - delete-api

@@ -1,0 +1,105 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dave-api
+  labels:
+    app: dave
+    layer: api
+    project: dave
+  namespace: {{ namespace }}
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: dave-api
+      labels:
+        name: dave-api
+        app: dave
+        layer: api
+        project: dave
+    spec:
+      containers:
+        - image: scholzj/dave:ttsave
+          name: dave-api
+          imagePullPolicy: Always
+          env:
+            - name: DAVE_LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: log.level
+            - name: DAVE_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: db.name
+            - name: DAVE_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: db.connection_url
+            - name: DAVE_HTTP_ENABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.enable
+            - name: DAVE_HTTP_COMPRESSION
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.compression
+            - name: DAVE_HTTP_REDIRECT
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.redirect
+            - name: DAVE_HTTP_REDIRECT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.redirectUri
+            - name: DAVE_HTTP_AUTH
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.auth
+            - name: DAVE_HTTP_CORS
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.cors
+            - name: DAVE_HTTP_CORS_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: http.cors_origin
+            - name: DAVE_HTTP_AUTH_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: http.auth_salt
+            - name: DAVE_HTTP_SSL_SERVER_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: http.public_key
+            - name: DAVE_HTTP_SSL_SERVER_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: http.private_key
+            - name: DAVE_HTTP_JWT_BASE64_KEYSTORE
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: jwt.keystore
+            - name: DAVE_HTTP_JWT_KEYSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: jwt.keystore_password
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8181
+              name: https
