@@ -4,4 +4,6 @@
 namespace: master
 
 # Domain name for the application
+dns_zone: dbg-devops.com
+ui_dns: master.snapshot.dave.dbg-devops.com
 api_dns: api.master.snapshot.dave.dbg-devops.com
