@@ -12,7 +12,7 @@
   ignore_errors: true
 
 - name: Replace the service
-  command: "kubectl --namespace {{ namespace }} delete dave-ui"
+  command: "kubectl --namespace {{ namespace }} delete service dave-ui"
   when: get_service|succeeded
 
 # Delete config-map
@@ -23,7 +23,7 @@
   ignore_errors: true
 
 - name: Replace the config-map
-  command: "kubectl --namespace {{ namespace }} delete dave-ui"
+  command: "kubectl --namespace {{ namespace }} delete cm dave-ui"
   when: get_cm|succeeded
 
 # Delete secret
@@ -34,7 +34,7 @@
   ignore_errors: true
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} delete dave-ui"
+  command: "kubectl --namespace {{ namespace }} delete secret dave-ui"
   when: get_secret|succeeded
 
 # Delete deployment
@@ -45,5 +45,5 @@
   ignore_errors: true
 
 - name: Replace the deployment
-  command: "kubectl --namespace {{ namespace }} delete dave-ui"
+  command: "kubectl --namespace {{ namespace }} delete deployment dave-ui"
   when: get_deployment|succeeded
