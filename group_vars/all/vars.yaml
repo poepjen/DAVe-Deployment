@@ -2,6 +2,7 @@
 
 # Namespace into which the application should be deployed
 namespace: master
+database_namespace: master
 
 # Domain name for the application
 dns_zone: dbg-devops.com
@@ -18,6 +19,11 @@ api_key_path: ./api.key
 api_cert_path: ./api.crt
 ui_key_path: ./ui.key
 ui_cert_path: ./ui.crt
+
+# Database (MongoDB) configuration
+database_name: DAVe-master
+database_hostname: mongo.default
+database_port: 27017
 
 # Let's Encrypt
 letsencrypt_account_key_path: ./account.key

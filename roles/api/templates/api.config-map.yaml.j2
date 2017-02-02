@@ -9,10 +9,9 @@ metadata:
     project: dave
 data:
   log.level: "INFO"
-  db.name: "DAVe-TTSave"
-  db.connection_url: "mongodb://mongo-svc-1.database:27017,mongo-svc-2.database:27017,mongo-svc-3.database:27017/?replicaSet=my_replica_set"
-  #db.hostname: "mongo.default"
-  #db.port: "27017"
+  db.name: "{{ database_name }}"
+  #db.connection_url: "mongodb://mongo-svc-1.database:27017,mongo-svc-2.database:27017,mongo-svc-3.database:27017/?replicaSet=my_replica_set"
+  db.connection_url: "mongodb://{{ database_hostname }}:{{ database_port }}/"
   http.enable: "TRUE"
   http.compression: "TRUE"
   http.auth: "TRUE"
