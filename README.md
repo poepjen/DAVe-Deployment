@@ -5,7 +5,7 @@ This repository contains the tooling for deploying DAVe application into running
 ## Prerequisites
 
 The tooling is written using Ansible. It runs only locally - it doesn't connect to any remote machines. To deploy the application, you need to have following tools installed:
-* Ansible
+* Ansible 2.2
 * Kubectl with proper configuration to connect to running Kubernetes cluster
 * boto library which will be used for communication with Amazon AWS APIs
 * OpenSSL for generating new SSL keys (only the Let's Encrypt playbook)
