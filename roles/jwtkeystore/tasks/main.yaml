@@ -1,0 +1,45 @@
+---
+
+####################
+# Generates keys for signing JSON Web Tokens
+####################
+
+- stat:
+    path: "{{ jwt_keystore_path }}"
+  register: jwt_keystore_exists
+
+- name: Generate the JWT keystore
+  command: "keytool -genseckey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg HMacSHA256 -keysize 2048 -alias HS256 -keypass {{ jwt_keystore_password }}"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genseckey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg HMacSHA384 -keysize 2048 -alias HS384 -keypass {{ jwt_keystore_password }}"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genseckey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg HMacSHA512 -keysize 2048 -alias HS512 -keypass {{ jwt_keystore_password }}"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg RSA -keysize 2048 -alias RS256 -keypass {{ jwt_keystore_password }} -sigalg SHA256withRSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg RSA -keysize 2048 -alias RS384 -keypass {{ jwt_keystore_password }} -sigalg SHA384withRSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkey -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg RSA -keysize 2048 -alias RS512 -keypass {{ jwt_keystore_password }} -sigalg SHA512withRSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkeypair -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg EC -keysize 256 -alias ES256 -keypass {{ jwt_keystore_password }} -sigalg SHA256withECDSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkeypair -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg EC -keysize 256 -alias ES384 -keypass {{ jwt_keystore_password }} -sigalg SHA384withECDSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
+
+- name: Generate the JWT keystore
+  command: "keytool -genkeypair -keystore {{ jwt_keystore_path }} -storetype jceks -storepass {{ jwt_keystore_password }} -keyalg EC -keysize 256 -alias ES512 -keypass {{ jwt_keystore_password }} -sigalg SHA512withECDSA -dname \"CN=,OU=,O=,L=,ST=,C=\" -validity 360"
+  when: jwt_keystore_exists.stat.exists == False
