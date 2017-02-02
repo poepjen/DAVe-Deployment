@@ -51,7 +51,7 @@ ansible-playbook install.yaml
 
 It will create the Kubernetes resources, Route53 records etc. The definition of the Kubernetes objects is in the templates of different roles. Change the templates if you want to change something. **Before running the installation, check the configuration first.**
 
-## Uinstallation
+## Uninstallation
 
 To uninstall the application, run:
 ```
