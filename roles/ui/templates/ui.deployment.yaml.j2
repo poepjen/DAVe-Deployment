@@ -19,7 +19,7 @@ spec:
         project: dave
     spec:
       containers:
-        - image: scholzj/dave-ui:master
+        - image: scholzj/dave-ui:{{ release }}
           name: dave-ui
           imagePullPolicy: Always
           env:

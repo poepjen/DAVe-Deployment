@@ -19,7 +19,7 @@ spec:
         project: dave
     spec:
       containers:
-        - image: scholzj/dave:ttsave
+        - image: scholzj/dave:{{ release }}
           name: dave-api
           imagePullPolicy: Always
           env:
