@@ -6,6 +6,6 @@
 - hosts: localhost
   connection: local
   roles:
-    - delete-namespace
     - delete-ui
     - delete-api
+    - delete-namespace
