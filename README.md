@@ -24,6 +24,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `dns_zone` | Hosted DNS zone which has to exist in Route53 | `dbg-devops.com` |
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
 | `api_dns` | Hostname of the API service | `api.snapshot.dave.dbg-devops.com` |
+| `elb_hosted_zone` | The hosted zone in which the aliased ELB load balancers are hosted (should be dependent on the AWS region) | `Z32O12XQLNTSW2` |
 | `auth_salt` | Authentication salt used to store passwords | `123456` |
 | `jwt_keystore_path` | Java Keystore with keys used to sign JWT tokens | `./jwt.keystore` |
 | `jwt_keystore_password` | Password for the keystore above | `123456` |
