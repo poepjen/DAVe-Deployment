@@ -7,7 +7,7 @@ This repository contains the tooling for deploying DAVe application into running
 The tooling is written using Ansible. It runs only locally - it doesn't connect to any remote machines. To deploy the application, you need to have following tools installed:
 * Ansible
 * Kubectl with proper configuration to connect to running Kubernetes cluster
-* boto library which will be used for communication with Amazon AWS api_dns
+* boto library which will be used for communication with Amazon AWS APIs
 * OpenSSL for generating new SSL keys (only the Let's Encrypt playbook)
 * Java for automatic creation of the keys for signing JSON Web Tokens
 
@@ -24,9 +24,9 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `dns_zone` | Hosted DNS zone which has to exist in Route53 | `dbg-devops.com` |
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
 | `api_dns` | Hostname of the API service | `api.snapshot.dave.dbg-devops.com` |
-| `auth_salt` | Autnetication salt used to store passwords | `123456` |
+| `auth_salt` | Authentication salt used to store passwords | `123456` |
 | `jwt_keystore_path` | Java Keystore with keys used to sign JWT tokens | `./jwt.keystore` |
-| `jwt_keystore_password` | PAssword for the keystore abobe | `123456` |
+| `jwt_keystore_password` | Password for the keystore above | `123456` |
 | `api_key_path` | Path to the API private key | `./api.key` |
 | `api_cert_path` | Path to the API public key | `./api.cert` |
 | `ui_key_path` | Path to the UI private key | `./ui.key` |
@@ -35,7 +35,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `database_hostname` | MongoDB database hostname | `mongo.database` |
 | `database_port` | MongoDB database port | `` |
 
-Following configuration is needed only for signing the certificates with LEt's Encrypt:
+Following configuration is needed only for signing the certificates with Let's Encrypt:
 
 | Variable | Explanation | Example |
 |--------|-------------|---------|
