@@ -9,7 +9,7 @@ The tooling is written using Ansible. It runs only locally - it doesn't connect 
 * Kubectl with proper configuration to connect to running Kubernetes cluster
 * boto library which will be used for communication with Amazon AWS APIs
 * OpenSSL for generating new SSL keys (only the Let's Encrypt playbook)
-* Java for automatic creation of the keys for signing JSON Web Tokens
+* Java (for automatic creation of the keys for signing JSON Web Tokens)
 
 **Before running the playbook, you have to set the AWS credentials for communication with the AWS services as environment variables.**
 
