@@ -11,7 +11,7 @@
   register: get_service
   ignore_errors: true
 
-- name: Replace the service
+- name: Delete the service
   command: "kubectl --namespace {{ namespace }} delete service dave-api"
   when: get_service|succeeded
 
@@ -22,7 +22,7 @@
   register: get_cm
   ignore_errors: true
 
-- name: Replace the config-map
+- name: Delete the config-map
   command: "kubectl --namespace {{ namespace }} delete cm dave-api"
   when: get_cm|succeeded
 
@@ -33,7 +33,7 @@
   register: get_secret
   ignore_errors: true
 
-- name: Replace the secret
+- name: Delete the secret
   command: "kubectl --namespace {{ namespace }} delete secret dave-api"
   when: get_secret|succeeded
 
@@ -44,15 +44,26 @@
   register: get_deployment
   ignore_errors: true
 
-- name: Replace the deployment
+- name: Delete the deployment
   command: "kubectl --namespace {{ namespace }} delete deployment dave-api"
   when: get_deployment|succeeded
 
 # Delete the Route53 DNS record
 
 - route53:
+      command: get
+      zone: "{{ dns_zone }}"
+      record: "{{ api_dns }}"
+      type: A
+  register: route53
+
+- route53:
     command: delete
     zone: "{{ dns_zone }}"
     record: "{{ api_dns }}"
+    value: "{{ route53.set.value }}"
     type: A
+    alias: True
+    alias_hosted_zone_id: "{{ route53.set.alias_hosted_zone_id }}"
     overwrite: True
+  when: route53.set.record is defined
