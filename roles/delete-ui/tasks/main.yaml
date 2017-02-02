@@ -47,3 +47,12 @@
 - name: Replace the deployment
   command: "kubectl --namespace {{ namespace }} delete deployment dave-ui"
   when: get_deployment|succeeded
+
+# Delete the Route53 DNS record
+
+- route53:
+    command: delete
+    zone: "{{ dns_zone }}"
+    record: "{{ ui_dns }}"
+    type: A
+    overwrite: True
