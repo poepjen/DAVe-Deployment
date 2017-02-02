@@ -46,7 +46,7 @@
   when: get_service|failed
 
 - name: Replace the service
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.service.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.service.yaml"
   when: get_service|succeeded
 
 # Add config-map
@@ -61,7 +61,7 @@
   when: get_cm|failed
 
 - name: Replace the config-map
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.config-map.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.config-map.yaml"
   when: get_cm|succeeded
 
 # Add secret
@@ -76,7 +76,7 @@
   when: get_secret|failed
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.secret.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.secret.yaml"
   when: get_secret|succeeded
 
 # Add deployment
@@ -91,7 +91,7 @@
   when: get_deployment|failed
 
 - name: Replace the deployment
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.deployment.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.deployment.yaml"
   when: get_deployment|succeeded
 
 # Create Route53 alias
@@ -104,7 +104,15 @@
     loadbalancer: "{{ get_loadbalancer.stdout | from_json }}"
 
 - set_fact:
-    loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress']['hostname'] }}"
+    loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress'][0]['hostname'] }}"
+
+# - set_fact:
+#     loadbalancer_name: "{{ loadbalancer_dns_name.split('-') }}"
+#
+# - name: Find the hosted zone of the loadbalancer
+#   ec2_elb_facts:
+#     names: "{{ loadbalancer_name[0] }}"
+#   register: elb_facts
 
 - route53:
     command: create
@@ -113,6 +121,6 @@
     type: A
     value: "{{ loadbalancer_dns_name }}"
     alias: True
-    alias_hosted_zone_id: "{{ elb_zone_id }}"
+    alias_hosted_zone_id: "{{ elb_hosted_zone }}"
     alias_evaluate_target_health: False
     overwrite: True

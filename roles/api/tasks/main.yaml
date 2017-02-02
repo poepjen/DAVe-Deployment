@@ -20,6 +20,13 @@
     mode: 0744
   become: false
 
+# - set_fact:
+#     jwt_keystore_base64_path: "{{ jwt_keystore_path }}.base64"
+
+- name: Base64 encode the JWT keystore
+  command: "base64 {{ jwt_keystore_path }}"
+  register: jwt_keystore_base64
+
 - name: Generate secret
   template:
     src: api.secret.yaml.j2
@@ -46,7 +53,7 @@
   when: get_service|failed
 
 - name: Replace the service
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/api.service.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.service.yaml"
   when: get_service|succeeded
 
 # Add config-map
@@ -61,7 +68,7 @@
   when: get_cm|failed
 
 - name: Replace the config-map
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/api.config-map.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.config-map.yaml"
   when: get_cm|succeeded
 
 # Add secret
@@ -76,7 +83,7 @@
   when: get_secret|failed
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/api.secret.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.secret.yaml"
   when: get_secret|succeeded
 
 # Add deployment
@@ -91,7 +98,7 @@
   when: get_deployment|failed
 
 - name: Replace the deployment
-  command: "kubectl --namespace {{ namespace }} replace -f /tmp/api.deployment.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.deployment.yaml"
   when: get_deployment|succeeded
 
 # Create Route53 alias
@@ -104,7 +111,7 @@
     loadbalancer: "{{ get_loadbalancer.stdout | from_json }}"
 
 - set_fact:
-    loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress']['hostname'] }}"
+    loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress'][0]['hostname'] }}"
 
 - route53:
     command: create
@@ -113,6 +120,6 @@
     type: A
     value: "{{ loadbalancer_dns_name }}"
     alias: True
-    alias_hosted_zone_id: "{{ elb_zone_id }}"
+    alias_hosted_zone_id: "{{ elb_hosted_zone }}"
     alias_evaluate_target_health: False
     overwrite: True
