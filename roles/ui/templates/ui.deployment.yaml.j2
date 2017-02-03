@@ -22,6 +22,13 @@ spec:
         - image: scholzj/dave-ui:{{ release }}
           name: dave-ui
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
           env:
             - name: DAVE_REST_URL
               valueFrom:
