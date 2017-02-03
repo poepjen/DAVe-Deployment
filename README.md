@@ -11,6 +11,10 @@ The tooling is written using Ansible. It runs only locally - it doesn't connect 
 * OpenSSL for generating new SSL keys (only the Let's Encrypt playbook)
 * Java (for automatic creation of the keys for signing JSON Web Tokens)
 
+Before installation, the SSL certificated and keys for signing JSON Web Tokens have to be available. You can create them manually or use the prepared playbooks:
+* [letsencrypt.yaml](#signed-certificates-with-lets-encrypt)
+* [jwtkeystore.yaml](#generating-keys-for-json-web-token-signing)
+
 **Before running the playbook, you have to set the AWS credentials for communication with the AWS services as environment variables.**
 
 ## Configuration
