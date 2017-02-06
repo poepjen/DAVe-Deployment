@@ -55,16 +55,6 @@ spec:
                 configMapKeyRef:
                   name: dave-api
                   key: http.compression
-            - name: DAVE_HTTP_REDIRECT
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.redirect
-            - name: DAVE_HTTP_REDIRECT_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.redirectUri
             - name: DAVE_HTTP_AUTH
               valueFrom:
                 configMapKeyRef:
@@ -107,6 +97,4 @@ spec:
                   key: jwt.keystore_password
           ports:
             - containerPort: 8080
-              name: http
-            - containerPort: 8181
               name: https
