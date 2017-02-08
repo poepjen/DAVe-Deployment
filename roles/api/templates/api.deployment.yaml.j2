@@ -98,3 +98,15 @@ spec:
           ports:
             - containerPort: 8080
               name: https
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+              scheme: HTTPS
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 8080
+              scheme: HTTPS
+            initialDelaySeconds: 30
