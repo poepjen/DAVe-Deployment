@@ -6,10 +6,10 @@ spec:
   podSelector:
     matchLabels:
       app: dave
-      layer: db
+      layer: frontend
   ingress:
     - from:
-      - podSelector:
-          matchLabels:
-            app: dave
-            layer: api
+#      - podSelector:
+#          matchLabels:
+#            app: dave
+#            layer: api

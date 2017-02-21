@@ -6,9 +6,10 @@ spec:
   podSelector:
     matchLabels:
       app: dave
-      layer: api
+      layer: db
   ingress:
     - from:
-#      - podSelector:
-#          matchLabels:
-#            run: busybox
+      - podSelector:
+          matchLabels:
+            app: dave
+            layer: api
