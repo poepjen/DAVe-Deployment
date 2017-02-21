@@ -1,0 +1,38 @@
+---
+
+####################
+# Delete Network Policies
+####################
+
+# Delete API network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy api-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy api-access"
+  when: get_service|succeeded
+
+# Delete UI network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy ui-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy ui-access"
+  when: get_service|succeeded
+
+# Delete Database network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy db-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy db-access"
+  when: get_service|succeeded

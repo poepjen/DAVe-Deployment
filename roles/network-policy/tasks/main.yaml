@@ -1,0 +1,75 @@
+---
+
+####################
+# Install Network Policies
+####################
+
+# Isolate network access
+
+- name: Isolate network access
+  command: "kubectl annotate ns {{ namespace }} 'net.beta.kubernetes.io/network-policy={\"ingress\":{\"isolation\":\"DefaultDeny\"}}'"
+
+# Render templates
+
+- name: Generate API network policy
+  template:
+    src: api-access.network-policy.yaml.j2
+    dest: /tmp/api-access.network-policy.yaml
+    mode: 0744
+  become: false
+
+- name: Generate UI network policy
+  template:
+    src: ui-access.network-policy.yaml.j2
+    dest: /tmp/ui-access.network-policy.yaml
+    mode: 0744
+  become: false
+
+- name: Generate Database network policy
+  template:
+    src: db-access.network-policy.yaml.j2
+    dest: /tmp/db-access.network-policy.yaml
+    mode: 0744
+  become: false
+
+# Add API network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy api-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy api-access"
+  when: get_service|succeeded
+
+- name: Create the network policy
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/api-access.network-policy.yaml"
+
+# Add UI network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy ui-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy ui-access"
+  when: get_service|succeeded
+
+- name: Create the network policy
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui-access.network-policy.yaml"
+
+# Add Database network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy db-access -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy db-access"
+  when: get_service|succeeded
+
+- name: Create the network policy
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/db-access.network-policy.yaml"

@@ -1,0 +1,15 @@
+ind: NetworkPolicy
+apiVersion: extensions/v1beta1
+metadata:
+  name: ui-access
+spec:
+  podSelector:
+    matchLabels:
+      app: dave
+      layer: db
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: dave
+            layer: api

@@ -1,0 +1,14 @@
+ind: NetworkPolicy
+apiVersion: extensions/v1beta1
+metadata:
+  name: api-access
+spec:
+  podSelector:
+    matchLabels:
+      app: dave
+      layer: api
+  ingress:
+    - from:
+#      - podSelector:
+#          matchLabels:
+#            run: busybox

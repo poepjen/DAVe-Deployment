@@ -7,5 +7,6 @@
   connection: local
   roles:
     - namespace
+    - network-policy
     - ui
     - api
