@@ -8,5 +8,6 @@
   roles:
     - delete-ui
     - delete-api
+    - delete-mongo
     - delete-network-policy
     - delete-namespace

@@ -9,4 +9,5 @@
     - namespace
     - network-policy
     - ui
+    - mongo
     - api

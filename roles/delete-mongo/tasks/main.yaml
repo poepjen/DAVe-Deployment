@@ -1,0 +1,27 @@
+---
+
+####################
+# Delete Mongo DB
+####################
+
+# Delete service
+
+- name: Find out if service already exists
+  command: "kubectl --namespace {{ namespace }} get service dave-mongo -o json"
+  register: get_service
+  ignore_errors: true
+
+- name: Replace the service
+  command: "kubectl --namespace {{ namespace }} delete service dave-mongo"
+  when: get_service|succeeded
+
+# Delete statefulset
+
+- name: Find out if statefulset already exists
+  command: "kubectl --namespace {{ namespace }} get statefulset dave-mongo -o json"
+  register: get_statefulset
+  ignore_errors: true
+
+- name: Replace the statefulset
+  command: "kubectl --namespace {{ namespace }} delete statefulset dave-mongo"
+  when: get_statefulset|succeeded
