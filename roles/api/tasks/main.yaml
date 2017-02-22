@@ -41,6 +41,13 @@
     mode: 0744
   become: false
 
+- name: Generate HPA
+  template:
+    src: api.autoscaler.yaml.j2
+    dest: /tmp/api.autoscaler.yaml
+    mode: 0744
+  become: false
+
 # Add service
 
 - name: Find out if service already exists
@@ -100,6 +107,21 @@
 - name: Replace the deployment
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.deployment.yaml"
   when: get_deployment|succeeded
+
+# Add autoscaler
+
+- name: Find out if HPA already exists
+  command: "kubectl --namespace {{ namespace }} get hpa dave-api -o json"
+  register: get_hpa
+  ignore_errors: true
+
+- name: Create the HPA
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/api.autoscaler.yaml"
+  when: get_hpa|failed
+
+- name: Replace the HPA
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.autoscaler.yaml"
+  when: get_hpa|succeeded
 
 # Create Route53 alias
 
