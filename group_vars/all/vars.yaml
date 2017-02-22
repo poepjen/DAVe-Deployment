@@ -28,8 +28,9 @@ ui_cert_path: ./ui.crt
 
 # Database (MongoDB) configuration
 database_name: DAVe-master
-database_hostname: mongo.default
-database_port: 27017
+
+# URL for connectiong to the databse. If defined, the database deployment will be skipped.
+#database_url: mongodb://mongo.default:27017/
 
 # Let's Encrypt
 letsencrypt_account_key_path: ./account.key

@@ -10,8 +10,7 @@ metadata:
 data:
   log.level: "INFO"
   db.name: "{{ database_name }}"
-  #db.connection_url: "mongodb://mongo-svc-1.database:27017,mongo-svc-2.database:27017,mongo-svc-3.database:27017/?replicaSet=my_replica_set"
-  db.connection_url: "mongodb://{{ database_hostname }}:{{ database_port }}/"
+  db.connection_url: "{{ database_connection_url }}"
   http.enable: "TRUE"
   http.compression: "TRUE"
   http.auth: "TRUE"

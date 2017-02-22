@@ -38,8 +38,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `ui_key_path` | Path to the UI private key | `./ui.key` |
 | `ui_cert_path` | Path to the UI public key | `./ui.cert` |
 | `database_name` | Name of the MongoDB database the API should be configured to use | `DAVe` |
-| `database_hostname` | MongoDB database hostname | `mongo.database` |
-| `database_port` | MongoDB database port | `` |
+| `database_url` | MongoDB database connection URL. If not defined, it will be generated to link to MongoDB deployed by this tooling. If defined, the MongoDB deployment will be skipped. | |
 
 Following configuration is needed only for signing the certificates with Let's Encrypt:
 

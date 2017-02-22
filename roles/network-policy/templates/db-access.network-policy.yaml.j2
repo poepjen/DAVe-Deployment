@@ -1,15 +1,23 @@
-ind: NetworkPolicy
+kind: NetworkPolicy
 apiVersion: extensions/v1beta1
 metadata:
-  name: db-access
+  name: mongo-access
+  namespace: {{ namespace }}
 spec:
   podSelector:
     matchLabels:
-      app: dave
+      app: mongo
       layer: db
+      project: dave
   ingress:
     - from:
       - podSelector:
           matchLabels:
+            app: mongo
+            layer: db
+            project: dave
+      - podSelector:
+          matchLabels:
             app: dave
             layer: api
+            project: dave
