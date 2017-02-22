@@ -25,3 +25,25 @@
 - name: Replace the statefulset
   command: "kubectl --namespace {{ namespace }} delete statefulset dave-mongo"
   when: get_statefulset|succeeded
+
+# Delete pods
+
+- name: Find out if pods exist
+  command: "kubectl --namespace {{ namespace }} get pods -l project=dave -l app=mongo -l layer=db -o json"
+  register: get_pvc
+  ignore_errors: true
+
+- name: Replace the pods
+  command: "kubectl --namespace {{ namespace }} delete pods -l project=dave -l app=mongo -l layer=db -o json"
+  when: get_pvc|succeeded
+
+# Delete persisiten volume claims
+
+- name: Find out if persisiten volume claims exists
+  command: "kubectl --namespace {{ namespace }} get pvc -l project=dave -l app=mongo -l layer=db -o json"
+  register: get_pvc
+  ignore_errors: true
+
+- name: Replace the persisiten volume claims
+  command: "kubectl --namespace {{ namespace }} delete pvc -l project=dave -l app=mongo -l layer=db -o json"
+  when: get_pvc|succeeded
