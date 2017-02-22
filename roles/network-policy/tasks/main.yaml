@@ -25,7 +25,7 @@
     mode: 0744
   become: false
 
-- name: Generate Database network policy
+- name: Generate Database network policy (Other apps access to DB)
   template:
     src: db-access.network-policy.yaml.j2
     dest: /tmp/db-access.network-policy.yaml

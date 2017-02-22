@@ -1,12 +1,14 @@
-ind: NetworkPolicy
+kind: NetworkPolicy
 apiVersion: extensions/v1beta1
 metadata:
   name: api-access
+  namespace: {{ namespace }}
 spec:
   podSelector:
     matchLabels:
       app: dave
       layer: api
+      project: dave
   ingress:
     - from:
 #      - podSelector:
