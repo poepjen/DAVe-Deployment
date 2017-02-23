@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-quota
+spec:
+  hard:
+    #deployments.extensions: "2"
+    #statefulsets.apps: "1"
+    replicationcontrollers: "0"
+    pods: "23"
+    services: "3"
+    services.loadbalancers: "2"
+    configmaps: "10"
+    secrets: "10"
+    requests.storage: "100Gi"
+    persistentvolumeclaims: "3"
+    ssd.storageclass.storage.k8s.io/requests.storage: "100Gi"
+    ssd.storageclass.storage.k8s.io/persistentvolumeclaims: "3"
