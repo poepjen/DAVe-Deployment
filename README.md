@@ -24,7 +24,6 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | Variable | Explanation | Example |
 |--------|-------------|---------|
 | `namespace` | Kubernetes namespace where the DAVe application should be deployed | `dave` |
-| `database_namespace` | Kubernetes namespace where the database should be deployed | `database` |
 | `release` | Which Docker image tag should be used in the deployment | `1.0.0` |
 | `dns_zone` | Hosted DNS zone which has to exist in Route53 | `dbg-devops.com` |
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
@@ -39,6 +38,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `ui_cert_path` | Path to the UI public key | `./ui.cert` |
 | `database_name` | Name of the MongoDB database the API should be configured to use | `DAVe` |
 | `database_url` | MongoDB database connection URL. If not defined, it will be generated to link to MongoDB deployed by this tooling. If defined, the MongoDB deployment will be skipped. | |
+| `db_unload_url` | Path to tar.gz file with the database unload which should be loaded. If not set, only empty database will be created | `https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz` |
 
 Following configuration is needed only for signing the certificates with Let's Encrypt:
 
