@@ -67,7 +67,7 @@
 
 - name: Generate connection URL
   set_fact:
-    database_connection_url: "mongodb://dave-mongo-0:27017,dave-mongo-1:27017,dave-mongo-2:27017/?replicaSet=rs0"
+    database_connection_url: "mongodb://dave-mongo-0.{{ database_namespace }}:27017,dave-mongo-1.{{ database_namespace }}:27017,dave-mongo-2.{{ database_namespace }}:27017/?replicaSet=rs0"
   when: dabatase_url is undefined
 
 - name: Generate connection URL
