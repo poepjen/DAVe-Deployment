@@ -27,19 +27,19 @@
 # Add service
 
 - name: Find out if service already exists
-  command: "kubectl --namespace {{ database_namespace }} get service dave-mongo -o json"
+  command: "kubectl --namespace {{ namespace }} get service dave-mongo -o json"
   register: get_service
   ignore_errors: true
   when: dabatase_url is undefined
 
 - name: Create the service
-  command: "kubectl --namespace {{ database_namespace }} create -f /tmp/mongo.service.yaml"
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.service.yaml"
   when:
     - get_service|failed
     - dabatase_url is undefined
 
 - name: Replace the service
-  command: "kubectl --namespace {{ database_namespace }} apply -f /tmp/mongo.service.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.service.yaml"
   when:
     - get_service|succeeded
     - dabatase_url is undefined
@@ -47,20 +47,20 @@
 # Add statefulset
 
 - name: Find out if statefulset already exists
-  command: "kubectl --namespace {{ database_namespace }} get statefulset dave-mongo -o json"
+  command: "kubectl --namespace {{ namespace }} get statefulset dave-mongo -o json"
   register: get_statefulset
   ignore_errors: true
   when:
     - dabatase_url is undefined
 
 - name: Create the statefulset
-  command: "kubectl --namespace {{ database_namespace }} create -f /tmp/mongo.statefulset.yaml"
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.statefulset.yaml"
   when:
     - dabatase_url is undefined
     - get_statefulset|failed
 
 - name: Replace the statefulset
-  command: "kubectl --namespace {{ database_namespace }} apply -f /tmp/mongo.statefulset.yaml"
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.statefulset.yaml"
   when:
     - dabatase_url is undefined
     - get_statefulset|succeeded
