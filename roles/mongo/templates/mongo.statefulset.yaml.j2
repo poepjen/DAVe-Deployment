@@ -6,7 +6,7 @@ metadata:
     app: mongo
     layer: db
     project: dave
-  namespace: {{ namespace }}
+  namespace: {{ database_namespace }}
 spec:
   serviceName: "dave-mongo"
   replicas: 3
@@ -44,6 +44,13 @@ spec:
           env:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "app=mongo,layer=db,project=dave"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
   volumeClaimTemplates:
   - metadata:
       name: mongo-persistent-storage
