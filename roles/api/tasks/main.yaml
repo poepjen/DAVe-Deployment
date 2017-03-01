@@ -13,6 +13,16 @@
     mode: 0744
   become: false
 
+- name: Generate connection URL
+  set_fact:
+    database_connection_url: "mongodb://dave-mongo-0:27017,dave-mongo-1:27017,dave-mongo-2:27017/?replicaSet=rs0"
+  when: dabatase_url is undefined
+
+- name: Generate connection URL
+  set_fact:
+    database_connection_url: "{{ database_url }}"
+  when: dabatase_url is defined
+
 - name: Generate config map
   template:
     src: api.config-map.yaml.j2
@@ -64,16 +74,6 @@
   when: get_service|succeeded
 
 # Add config-map
-
-- name: Generate connection URL
-  set_fact:
-    database_connection_url: "mongodb://dave-mongo-0:27017,dave-mongo-1:27017,dave-mongo-2:27017/?replicaSet=rs0"
-  when: dabatase_url is undefined
-
-- name: Generate connection URL
-  set_fact:
-    database_connection_url: "{{ database_url }}"
-  when: dabatase_url is defined
 
 - name: Find out if config-map already exists
   command: "kubectl --namespace {{ namespace }} get cm dave-api -o json"
