@@ -10,4 +10,5 @@
     - network-policy
     - ui
     - mongo
+    - mongo-provisioning
     - api
