@@ -7,7 +7,7 @@
 # Isolate network access
 
 - name: Isolate network access
-  command: "kubectl annotate ns {{ namespace }} 'net.beta.kubernetes.io/network-policy={\"ingress\":{\"isolation\":\"DefaultDeny\"}}'"
+  command: "kubectl annotate ns {{ namespace }} 'net.beta.kubernetes.io/network-policy={\"ingress\":{\"isolation\":\"DefaultDeny\"}}' --overwrite=true"
 
 # Render templates
 
@@ -36,12 +36,12 @@
 
 - name: Find out if network policy already exists
   command: "kubectl --namespace {{ namespace }} get networkpolicy api-access -o json"
-  register: get_service
+  register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
   command: "kubectl --namespace {{ namespace }} delete networkpolicy api-access"
-  when: get_service|succeeded
+  when: get_np|succeeded
 
 - name: Create the network policy
   command: "kubectl --namespace {{ namespace }} create -f /tmp/api-access.network-policy.yaml"
@@ -50,12 +50,12 @@
 
 - name: Find out if network policy already exists
   command: "kubectl --namespace {{ namespace }} get networkpolicy ui-access -o json"
-  register: get_service
+  register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
   command: "kubectl --namespace {{ namespace }} delete networkpolicy ui-access"
-  when: get_service|succeeded
+  when: get_np|succeeded
 
 - name: Create the network policy
   command: "kubectl --namespace {{ namespace }} create -f /tmp/ui-access.network-policy.yaml"
@@ -64,12 +64,12 @@
 
 - name: Find out if network policy already exists
   command: "kubectl --namespace {{ namespace }} get networkpolicy db-access -o json"
-  register: get_service
+  register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
   command: "kubectl --namespace {{ namespace }} delete networkpolicy db-access"
-  when: get_service|succeeded
+  when: get_np|succeeded
 
 - name: Create the network policy
   command: "kubectl --namespace {{ namespace }} create -f /tmp/db-access.network-policy.yaml"
