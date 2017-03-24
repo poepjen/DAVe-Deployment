@@ -1,7 +1,7 @@
 ---
 
 # Namespace into which the application should be deployed
-namespace: schojak
+namespace: master
 
 # Release / Which tag should be used in the deployment
 release: master
@@ -18,12 +18,12 @@ elb_hosted_zone: Z32O12XQLNTSW2
 auth_salt: DAVe
 
 # SSL certificates
-jwt_keystore_path: ./jwt.keystore
+jwt_keystore_path: ./jwt.master.keystore
 jwt_keystore_password: "123456"
-api_key_path: ./api.key
-api_cert_path: ./api.crt
-ui_key_path: ./ui.key
-ui_cert_path: ./ui.crt
+api_key_path: ./api.master.key
+api_cert_path: ./api.master.crt
+ui_key_path: ./ui.master.key
+ui_cert_path: ./ui.master.crt
 
 # Database (MongoDB) configuration
 database_name: DAVe-master
@@ -31,6 +31,8 @@ database_name: DAVe-master
 #database_url: mongodb://mongo.default:27017/
 # URL when tared and gziped unload of the database can be doanloaded and loaded into the database
 db_unload_url: https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz
+# Path under which the actual unload files are stored in the archive
+db_unload_path: "mongo/DAVe-TTSave"
 
 # Let's Encrypt
 letsencrypt_account_key_path: ./account.key
