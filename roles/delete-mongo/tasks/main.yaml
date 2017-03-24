@@ -34,7 +34,7 @@
   ignore_errors: true
 
 - name: Replace the pods
-  command: "kubectl --namespace {{ namespace }} delete pods -l project=dave -l app=mongo -l layer=db -o json"
+  command: "kubectl --namespace {{ namespace }} delete pods -l project=dave -l app=mongo -l layer=db"
   when: get_pvc|succeeded
 
 # Delete persisiten volume claims
@@ -45,5 +45,5 @@
   ignore_errors: true
 
 - name: Replace the persisiten volume claims
-  command: "kubectl --namespace {{ namespace }} delete pvc -l project=dave -l app=mongo -l layer=db -o json"
+  command: "kubectl --namespace {{ namespace }} delete pvc -l project=dave -l app=mongo -l layer=db"
   when: get_pvc|succeeded
