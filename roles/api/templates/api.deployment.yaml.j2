@@ -18,6 +18,7 @@ spec:
         layer: api
         project: dave
     spec:
+      serviceAccount: dave-api
       containers:
         - image: scholzj/dave:{{ release }}
           name: dave-api
