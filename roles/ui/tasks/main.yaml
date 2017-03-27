@@ -34,6 +34,20 @@
     mode: 0744
   become: false
 
+- name: Generate role
+  template:
+    src: ui.role.yaml.j2
+    dest: /tmp/ui.role.yaml
+    mode: 0744
+  become: false
+
+- name: Generate role binding
+  template:
+    src: ui.rolebinding.yaml.j2
+    dest: /tmp/ui.rolebinding.yaml
+    mode: 0744
+  become: false
+
 - name: Generate deployment
   template:
     src: ui.deployment.yaml.j2
@@ -62,6 +76,32 @@
 - name: Replace the service account
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.serviceaccount.yaml"
   when: get_serviceaccount|succeeded
+
+- name: Find out if role already exists
+  command: "kubectl --namespace {{ namespace }} get role dave-ui -o json"
+  register: get_role
+  ignore_errors: true
+
+- name: Create the role
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.role.yaml"
+  when: get_role|failed
+
+- name: Replace the role
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.role.yaml"
+  when: get_role|succeeded
+
+- name: Find out if role binding already exists
+  command: "kubectl --namespace {{ namespace }} get rolebinding dave-ui -o json"
+  register: get_rolebinding
+  ignore_errors: true
+
+- name: Create the role binding
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.rolebinding.yaml"
+  when: get_rolebinding|failed
+
+- name: Replace the role binding
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.rolebinding.yaml"
+  when: get_rolebinding|succeeded
 
 # Add service
 
