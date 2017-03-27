@@ -6,6 +6,13 @@
 
 # Render templates
 
+- name: Generate service account
+  template:
+    src: mongo.serviceaccount.yaml.j2
+    dest: /tmp/mongo.serviceaccount.yaml
+    mode: 0744
+  become: false
+
 - name: Generate service
   template:
     src: mongo.service.yaml.j2
@@ -23,6 +30,21 @@
   become: false
   when:
     - dabatase_url is undefined
+
+# Add service account
+
+- name: Find out if service account already exists
+  command: "kubectl --namespace {{ namespace }} get serviceaccounts dave-mongo -o json"
+  register: get_serviceaccount
+  ignore_errors: true
+
+- name: Create the service account
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.serviceaccount.yaml"
+  when: get_serviceaccount|failed
+
+- name: Replace the service account
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.serviceaccount.yaml"
+  when: get_serviceaccount|succeeded
 
 # Add service
 

@@ -47,3 +47,14 @@
 - name: Replace the persisiten volume claims
   command: "kubectl --namespace {{ namespace }} delete pvc -l project=dave -l app=mongo -l layer=db"
   when: get_pvc|succeeded
+
+# Delete service account
+
+- name: Find out if service account already exists
+  command: "kubectl --namespace {{ namespace }} get serviceaccounts dave-mongo -o json"
+  register: get_serviceaccount
+  ignore_errors: true
+
+- name: Delete the service account
+  command: "kubectl --namespace {{ namespace }} delete serviceaccounts dave-mongo"
+  when: get_serviceaccount|succeeded
