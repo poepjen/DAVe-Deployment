@@ -13,6 +13,20 @@
     mode: 0744
   become: false
 
+# - name: Generate role
+#   template:
+#     src: mongo.role.yaml.j2
+#     dest: /tmp/mongo.role.yaml
+#     mode: 0744
+#   become: false
+#
+# - name: Generate role binding
+#   template:
+#     src: mongo.rolebinding.yaml.j2
+#     dest: /tmp/mongo.rolebinding.yaml
+#     mode: 0744
+#   become: false
+
 - name: Generate service
   template:
     src: mongo.service.yaml.j2
@@ -45,6 +59,32 @@
 - name: Replace the service account
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.serviceaccount.yaml"
   when: get_serviceaccount|succeeded
+
+# - name: Find out if role already exists
+#   command: "kubectl --namespace {{ namespace }} get role dave-mongo -o json"
+#   register: get_serviceaccount
+#   ignore_errors: true
+#
+# - name: Create the role
+#   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.role.yaml"
+#   when: get_serviceaccount|failed
+#
+# - name: Replace the role
+#   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.role.yaml"
+#   when: get_serviceaccount|succeeded
+
+# - name: Find out if role binding already exists
+#   command: "kubectl --namespace {{ namespace }} get rolebinding dave-mongo -o json"
+#   register: get_serviceaccount
+#   ignore_errors: true
+#
+# - name: Create the role binding
+#   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.rolebinding.yaml"
+#   when: get_serviceaccount|failed
+#
+# - name: Replace the role binding
+#   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.rolebinding.yaml"
+#   when: get_serviceaccount|succeeded
 
 # Add service
 
