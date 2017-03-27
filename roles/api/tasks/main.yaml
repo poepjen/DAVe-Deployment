@@ -118,6 +118,15 @@
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.deployment.yaml"
   when: get_deployment|succeeded
 
+# Make sure the deployment is running before moving forward
+
+- name: Verify that all pods are ready
+  shell: kubectl --namespace {{ namespace }} get pods | grep "dave-api" | grep "Running" | wc -l
+  register: cmd_result
+  until: cmd_result.stdout.find('3') != -1
+  retries: 20
+  delay: 30
+
 # Add autoscaler
 
 - name: Find out if HPA already exists

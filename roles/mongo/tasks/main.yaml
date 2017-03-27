@@ -64,3 +64,12 @@
   when:
     - dabatase_url is undefined
     - get_statefulset|succeeded
+
+# Make sure the deployment is running before moving forward
+
+- name: Verify that all pods are ready
+  shell: kubectl --namespace {{ namespace }} get pods | grep "dave-mongo" | grep "Running" | wc -l
+  register: cmd_result
+  until: cmd_result.stdout.find('3') != -1
+  retries: 20
+  delay: 30
