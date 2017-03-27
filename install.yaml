@@ -12,3 +12,4 @@
     - mongo
     - mongo-provisioning
     - api
+    - dns-propagation
