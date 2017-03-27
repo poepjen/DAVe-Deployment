@@ -62,29 +62,29 @@
 
 # - name: Find out if role already exists
 #   command: "kubectl --namespace {{ namespace }} get role dave-mongo -o json"
-#   register: get_serviceaccount
+#   register: get_role
 #   ignore_errors: true
 #
 # - name: Create the role
 #   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.role.yaml"
-#   when: get_serviceaccount|failed
+#   when: get_role|failed
 #
 # - name: Replace the role
 #   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.role.yaml"
-#   when: get_serviceaccount|succeeded
+#   when: get_role|succeeded
 
 # - name: Find out if role binding already exists
 #   command: "kubectl --namespace {{ namespace }} get rolebinding dave-mongo -o json"
-#   register: get_serviceaccount
+#   register: get_rolebinding
 #   ignore_errors: true
 #
 # - name: Create the role binding
 #   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.rolebinding.yaml"
-#   when: get_serviceaccount|failed
+#   when: get_rolebinding|failed
 #
 # - name: Replace the role binding
 #   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.rolebinding.yaml"
-#   when: get_serviceaccount|succeeded
+#   when: get_rolebinding|succeeded
 
 # Add service
 
