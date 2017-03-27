@@ -48,6 +48,17 @@
   command: "kubectl --namespace {{ namespace }} delete secret dave-ui"
   when: get_secret|succeeded
 
+# Delete service account
+
+- name: Find out if service account already exists
+  command: "kubectl --namespace {{ namespace }} get serviceaccounts dave-ui -o json"
+  register: get_serviceaccount
+  ignore_errors: true
+
+- name: Delete the service account
+  command: "kubectl --namespace {{ namespace }} delete serviceaccounts dave-ui"
+  when: get_serviceaccount|succeeded
+
 # Delete the Route53 DNS record
 
 - route53:

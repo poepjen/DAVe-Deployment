@@ -18,6 +18,7 @@ spec:
         layer: frontend
         project: dave
     spec:
+      serviceAccount: dave-ui
       containers:
         - image: scholzj/dave-ui:{{ release }}
           name: dave-ui

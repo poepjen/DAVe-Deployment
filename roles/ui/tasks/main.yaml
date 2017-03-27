@@ -27,6 +27,13 @@
     mode: 0744
   become: false
 
+- name: Generate service account
+  template:
+    src: ui.serviceaccount.yaml.j2
+    dest: /tmp/ui.serviceaccount.yaml
+    mode: 0744
+  become: false
+
 - name: Generate deployment
   template:
     src: ui.deployment.yaml.j2
@@ -40,6 +47,21 @@
     dest: /tmp/ui.autoscaler.yaml
     mode: 0744
   become: false
+
+# Add service account
+
+- name: Find out if service account already exists
+  command: "kubectl --namespace {{ namespace }} get serviceaccounts dave-ui -o json"
+  register: get_serviceaccount
+  ignore_errors: true
+
+- name: Create the service account
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/ui.serviceaccount.yaml"
+  when: get_serviceaccount|failed
+
+- name: Replace the service account
+  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.serviceaccount.yaml"
+  when: get_serviceaccount|succeeded
 
 # Add service
 
