@@ -20,7 +20,7 @@ spec:
     spec:
       serviceAccount: dave-api
       containers:
-        - image: scholzj/dave:{{ release }}
+        - image: dbgdave/dave-api:{{ release }}
           name: dave-api
           imagePullPolicy: Always
           resources:
