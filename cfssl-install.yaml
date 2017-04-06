@@ -1,0 +1,9 @@
+---
+###########################
+# Install CFSSL utility
+###########################
+
+- hosts: localhost
+  connection: local
+  roles:
+    - cfssl-install
