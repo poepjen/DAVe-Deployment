@@ -1,0 +1,21 @@
+---
+
+####################
+# Create DAVE CA for securing the communication between services
+####################
+
+# Render templates
+
+- name: Render CA template
+  template:
+    src: ca.json.j2
+    dest: "{{ ca_dir }}/ca.json.j2"
+    mode: 0744
+  become: false
+
+# Generate the CA
+
+- name: Create the service account
+  command: "cfssl genkey -initca ca.json | cfssljson -bare ca"
+  args:
+    chdir: {{ ca_dir }}

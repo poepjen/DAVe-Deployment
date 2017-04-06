@@ -79,6 +79,24 @@
     mode: 0744
   become: false
 
+- name: Render internal SSL template
+  template:
+    src: dave-api-ssl.json.j2
+    dest: "{{ ca_dir }}/dave-api-ssl.json.j2"
+    mode: 0744
+  become: false
+
+# Generate the internal SSL key
+
+- name: Create the service account
+  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
+  args:
+    chdir: {{ ca_dir }}
+
+- set_fact:
+   dave_api_ssl_key: "{{ ca_dir }}/dave-api-key.pem"
+   dave_api_ssl_cert: "{{ ca_dir }}/dave-api.pem"
+
 # Add service account
 
 - name: Find out if service account already exists

@@ -18,13 +18,16 @@ elb_hosted_zone: Z32O12XQLNTSW2
 # Application secrets
 auth_salt: DAVe
 
-# SSL certificates
+# External SSL certificates
 jwt_keystore_path: ./jwt.master.keystore
 jwt_keystore_password: "123456"
 api_key_path: ./api.master.key
 api_cert_path: ./api.master.crt
 ui_key_path: ./ui.master.key
 ui_cert_path: ./ui.master.crt
+
+# Internal SSL CA
+ca_dir: /tmp/
 
 # Database (MongoDB) configuration
 database_name: DAVe-master

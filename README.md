@@ -37,6 +37,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `api_cert_path` | Path to the API public key | `./api.cert` |
 | `ui_key_path` | Path to the UI private key | `./ui.key` |
 | `ui_cert_path` | Path to the UI public key | `./ui.cert` |
+| `ca_dir` | Path where the internal CA should be created | `./ca/` |
 | `database_name` | Name of the MongoDB database the API should be configured to use | `DAVe` |
 | `database_url` | MongoDB database connection URL. If not defined, it will be generated to link to MongoDB deployed by this tooling. If defined, the MongoDB deployment will be skipped. | |
 | `db_unload_url` | Path to tar.gz file with the database unload which should be loaded. If not set, only empty database will be created | `https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz` |

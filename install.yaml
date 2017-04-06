@@ -6,6 +6,7 @@
 - hosts: localhost
   connection: local
   roles:
+    - ca
     - namespace
     - network-policy
     - ui
