@@ -20,7 +20,7 @@ spec:
     spec:
       serviceAccount: dave-ui
       containers:
-        - image: scholzj/dave-ui:{{ release }}
+        - image: scholzj/dave-ui:{{ ui_release }}
           name: dave-ui
           imagePullPolicy: Always
           resources:

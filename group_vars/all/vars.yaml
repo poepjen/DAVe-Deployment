@@ -4,7 +4,8 @@
 namespace: master
 
 # Release / Which tag should be used in the deployment
-release: master
+api_release: master
+ui_release: master
 
 # Domain name for the application
 dns_zone: dbg-devops.com
