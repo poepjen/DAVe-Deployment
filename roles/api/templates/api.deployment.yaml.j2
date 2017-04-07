@@ -17,6 +17,9 @@ spec:
         app: dave
         layer: api
         project: dave
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/dave-api: runtime/default
+        container.apparmor.seccomp.beta.kubernetes.io/dave-api: docker/default
     spec:
       serviceAccount: dave-api
       containers:
