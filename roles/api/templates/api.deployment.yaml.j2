@@ -44,16 +44,6 @@ spec:
                 configMapKeyRef:
                   name: dave-api
                   key: log.level
-            - name: DAVE_DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: db.name
-            - name: DAVE_DB_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: db.connection_url
             - name: DAVE_HTTP_ENABLE
               valueFrom:
                 configMapKeyRef:
