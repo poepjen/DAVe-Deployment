@@ -1,11 +1,23 @@
 ---
 
+##########
+# Kubernetes configuration
+##########
+
 # Namespace into which the application should be deployed
 namespace: master
+
+##########
+# Software versions for deployment
+##########
 
 # Release / Which tag should be used in the deployment
 api_release: master
 ui_release: master
+
+##########
+# Domain names
+##########
 
 # Domain name for the application
 dns_zone: dbg-devops.com
@@ -15,19 +27,42 @@ api_dns: api.master.snapshot.dave.dbg-devops.com
 # Hosted zone of loadbalancers created by Kubernetes cluster (should be region dependent)
 elb_hosted_zone: Z32O12XQLNTSW2
 
-# Application secrets
-auth_salt: DAVe
+##########
+# SSL certificates for external communication
+##########
+
+# Let's Encrypt
+letsencrypt_account_key_path: ./account.key
+acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
+# acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging
 
 # External SSL certificates
-jwt_keystore_path: ./jwt.master.keystore
-jwt_keystore_password: "123456"
 api_key_path: ./api.master.key
 api_cert_path: ./api.master.crt
 ui_key_path: ./ui.master.key
 ui_cert_path: ./ui.master.crt
 
+##########
+# SSL certificates for internal communication
+##########
+
 # Internal SSL CA
 ca_dir: /tmp/
+
+##########
+# Authentication
+##########
+
+# Application secrets
+auth_salt: DAVe
+
+# Keys for signing JWT tokens
+jwt_keystore_path: ./jwt.master.keystore
+jwt_keystore_password: "123456"
+
+##########
+# Database
+##########
 
 # Database (MongoDB) configuration
 database_name: DAVe-master
@@ -37,8 +72,3 @@ database_name: DAVe-master
 db_unload_url: https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz
 # Path under which the actual unload files are stored in the archive
 db_unload_path: "mongo/DAVe-TTSave"
-
-# Let's Encrypt
-letsencrypt_account_key_path: ./account.key
-acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
-# acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging
