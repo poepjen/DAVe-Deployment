@@ -25,22 +25,29 @@
     mode: 0744
   become: false
 
+- name: Generate Store Manager network policy (Other apps access to Store MAnager)
+  template:
+    src: store-manager.network-policy.yaml.j2
+    dest: /tmp/store-manager.network-policy.yaml
+    mode: 0744
+  become: false
+
 - name: Generate Database network policy (Other apps access to DB)
   template:
     src: db-access.network-policy.yaml.j2
-    dest: /tmp/db-access.network-policy.yaml
+    dest: /tmp/mongo-access.network-policy.yaml
     mode: 0744
   become: false
 
 # Add API network policy
 
 - name: Find out if network policy already exists
-  command: "kubectl --namespace {{ namespace }} get networkpolicy api-access -o json"
+  command: "kubectl --namespace {{ namespace }} get networkpolicy dave-api-access -o json"
   register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
-  command: "kubectl --namespace {{ namespace }} delete networkpolicy api-access"
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy dave-api-access"
   when: get_np|succeeded
 
 - name: Create the network policy
@@ -49,27 +56,41 @@
 # Add UI network policy
 
 - name: Find out if network policy already exists
-  command: "kubectl --namespace {{ namespace }} get networkpolicy ui-access -o json"
+  command: "kubectl --namespace {{ namespace }} get networkpolicy dave-ui-access -o json"
   register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
-  command: "kubectl --namespace {{ namespace }} delete networkpolicy ui-access"
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy dave-ui-access"
   when: get_np|succeeded
 
 - name: Create the network policy
   command: "kubectl --namespace {{ namespace }} create -f /tmp/ui-access.network-policy.yaml"
 
-# Add Database network policy
+# Add Store Manager network policy
 
 - name: Find out if network policy already exists
-  command: "kubectl --namespace {{ namespace }} get networkpolicy db-access -o json"
+  command: "kubectl --namespace {{ namespace }} get networkpolicy dave-store-manager-access -o json"
   register: get_np
   ignore_errors: true
 
 - name: Delete the network policy (policies cannot be replaced or modified)
-  command: "kubectl --namespace {{ namespace }} delete networkpolicy db-access"
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy dave-store-manager-access"
   when: get_np|succeeded
 
 - name: Create the network policy
-  command: "kubectl --namespace {{ namespace }} create -f /tmp/db-access.network-policy.yaml"
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/dave-store-manager-access.network-policy.yaml"
+
+# Add Database network policy
+
+- name: Find out if network policy already exists
+  command: "kubectl --namespace {{ namespace }} get networkpolicy dave-mongo-access -o json"
+  register: get_np
+  ignore_errors: true
+
+- name: Delete the network policy (policies cannot be replaced or modified)
+  command: "kubectl --namespace {{ namespace }} delete networkpolicy dave-mongo-access"
+  when: get_np|succeeded
+
+- name: Create the network policy
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo-access.network-policy.yaml"

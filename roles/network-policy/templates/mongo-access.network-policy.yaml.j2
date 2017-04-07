@@ -1,7 +1,7 @@
 kind: NetworkPolicy
 apiVersion: extensions/v1beta1
 metadata:
-  name: db-access
+  name: dave-mongo-access
   namespace: {{ namespace }}
 spec:
   podSelector:
@@ -19,5 +19,5 @@ spec:
       - podSelector:
           matchLabels:
             app: dave
-            layer: api
+            layer: db
             project: dave
