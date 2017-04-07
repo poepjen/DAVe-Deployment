@@ -86,8 +86,13 @@
   args:
     chdir: {{ ca_dir }}
 
+- name: Convert PKCS1 to PKCS8
+  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-store-manager-key.pem -out dave-store-manager-pkcs8.pem"
+  args:
+    chdir: {{ ca_dir }}
+
 - set_fact:
-   dave_store_manager_ssl_key: "{{ ca_dir }}/dave-store-manager-key.pem"
+   dave_store_manager_ssl_key: "{{ ca_dir }}/dave-store-manager-pkcs8.pem"
    dave_store_manager_ssl_cert: "{{ ca_dir }}/dave-store-manager.pem"
 
 # Add service account
