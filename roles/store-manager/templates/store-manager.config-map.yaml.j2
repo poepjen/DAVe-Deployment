@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dave-store-manager
+  namespace: {{ namespace }}
+  labels:
+    app: dave
+    layer: db
+    project: dave
+data:
+  java.opts: "-Xmx=512m"
+  log.level: "INFO"
+  db.name: "{{ database_name }}"
+  db.connection_url: "{{ database_connection_url }}"
+  http.ssl_require_client_auth: "TRUE"

@@ -25,6 +25,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `namespace` | Kubernetes namespace where the DAVe application should be deployed | `dave` |
 | `api_release` | Which Docker image tag should be used in the deployment of the API | `1.0.0` |
 | `ui_release` | Which Docker image tag should be used in the deployment of the UI | `1.0.0` |
+| `store_manager_release` | Which Docker image tag should be used in the deployment of the Store Manager | `1.0.0` |
 | `dns_zone` | Hosted DNS zone which has to exist in Route53 | `dbg-devops.com` |
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
 | `api_dns` | Hostname of the API service | `api.snapshot.dave.dbg-devops.com` |

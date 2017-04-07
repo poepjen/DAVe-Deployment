@@ -12,5 +12,6 @@
     - ui
     - mongo
     - mongo-provisioning
+    - store-manager
     - api
     - dns-propagation

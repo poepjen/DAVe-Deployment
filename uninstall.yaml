@@ -8,6 +8,7 @@
   roles:
     - delete-ui
     - delete-api
+    - delete-store-manager
     - delete-mongo
     - delete-network-policy
     - delete-namespace
