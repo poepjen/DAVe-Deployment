@@ -11,7 +11,7 @@ namespace: master
 # Software versions for deployment
 ##########
 
-# Release / Which tag should be used in the deployment
+# Release / Which tag should be used in the deployment (Docker image tag, not GitHub tag)
 api_release: master
 ui_release: master
 
@@ -53,12 +53,11 @@ ca_dir: /tmp/
 # Authentication
 ##########
 
-# Application secrets
-auth_salt: DAVe
+# Key for veryfing JWT tokens
+jwt_public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmae5XwoRlK2Ew2vSPLzV7Zlnrtz0YDp3UPSvxvW+zN9dGZm38E+7ihUOQbIjvkKnK30v0QgvKDOKgwY7Ney1nwcZfZTNwkRXh1qzLGXRZYD3ZBWx9vIhPcG6DyQBGXrhYgN4RFEIBzybKARMjxfZR9y9vckK7Wd0D2bmBGk4knvzI8fRPaGTt42dmLaP1X7yT/s0DygQbHFUj4ukXR8LXYGEGpt2OHRVlb/MrIl7Ko2Ad6oSpcfjzePd6BJNjuYSczmbTVfClMbw/GFHk5icAsRJt8a2B7Fvbgcxz9kyT5p/QCTza/5qNtvf1+wl20TDw9JglF2oOPRwQlQW2MXY/QIDAQAB"
 
-# Keys for signing JWT tokens
-jwt_keystore_path: ./jwt.master.keystore
-jwt_keystore_password: "123456"
+# Where to find the authorization roles in the JWT key
+jwt_permissions_claim_key: "realm_access/roles"
 
 ##########
 # Database

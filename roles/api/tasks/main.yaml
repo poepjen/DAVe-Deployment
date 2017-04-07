@@ -30,13 +30,6 @@
     mode: 0744
   become: false
 
-# - set_fact:
-#     jwt_keystore_base64_path: "{{ jwt_keystore_path }}.base64"
-
-- name: Base64 encode the JWT keystore
-  command: "base64 {{ jwt_keystore_path }}"
-  register: jwt_keystore_base64
-
 - name: Generate secret
   template:
     src: api.secret.yaml.j2

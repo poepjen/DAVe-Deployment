@@ -79,11 +79,11 @@ spec:
                 configMapKeyRef:
                   name: dave-api
                   key: http.cors_origin
-            - name: DAVE_HTTP_AUTH_SALT
+            - name: DAVE_HTTP_AUTH_PERMISSIONS_CLAIM_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: http.auth_salt
+                  key: http.jwt_permissions_claim_key
             - name: DAVE_HTTP_SSL_SERVER_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
@@ -94,16 +94,11 @@ spec:
                 secretKeyRef:
                   name: dave-api
                   key: http.private_key
-            - name: DAVE_HTTP_JWT_BASE64_KEYSTORE
+            - name: DAVE_HTTP_AUTH_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: jwt.keystore
-            - name: DAVE_HTTP_JWT_KEYSTORE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: dave-api
-                  key: jwt.keystore_password
+                  key: http.jwt_public_key
           ports:
             - containerPort: 8080
               name: https
