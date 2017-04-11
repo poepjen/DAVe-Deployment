@@ -59,12 +59,12 @@ spec:
                 configMapKeyRef:
                   name: dave-store-manager
                   key: http.ssl_require_client_auth
-            - name: DAVE_HTTP_SSL_SERVER_PUBLIC_KEY
+            - name: DAVE_HTTP_SSL_CERT
               valueFrom:
                 secretKeyRef:
                   name: dave-store-manager
                   key: http.public_key
-            - name: DAVE_HTTP_SSL_SERVER_PRIVATE_KEY
+            - name: DAVE_HTTP_SSL_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-store-manager
