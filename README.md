@@ -48,10 +48,11 @@ Following configuration is needed only for signing the certificates with Let's E
 |--------|-------------|---------|
 | `letsencrypt_account_key_path` | Path where the Let's Encrypt account key is / should be created | `./account.key` |
 | `acme_directory` | Let's Encrypt ACME directory where we the certificates should be signed (production or staging) | `https://acme-staging.api.letsencrypt.org/directory` |
+| `full_chain_cert` | URL to chain of public CA certificates which should be used with the end certificates. If not specified, only the end certificate will be used. | `https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt` |
 
 ## Installation
 
-To install the application, run:
+To install the application export the variables with AWS access tokens and run:
 ```
 ansible-playbook install.yaml
 ```
@@ -60,7 +61,7 @@ It will create the Kubernetes resources, Route53 records etc. The definition of 
 
 ## Uninstallation
 
-To uninstall the application, run:
+To uninstall the application export the variables with AWS access tokens and run:
 ```
 ansible-playbook uninstall.yaml
 ```
@@ -69,7 +70,7 @@ It will remove all Kubernetes resources from the cluster as well as the Route53 
 
 ## Signed certificates with Let's Encrypt
 
-Playbook `letsencrypt.yaml` can be used to obtain signed keys from Let's Encrypt CA:
+Playbook `letsencrypt.yaml` can be used to obtain signed keys from Let's Encrypt CA. Export the variables with AWS access tokens and run:
 ```
 ansible-playbook letsencrypt.yaml
 ```

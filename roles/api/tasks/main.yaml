@@ -85,6 +85,31 @@
    dave_api_ssl_key: "{{ ca_dir }}/dave-api-pkcs8.pem"
    dave_api_ssl_cert: "{{ ca_dir }}/dave-api.pem"
 
+# Create full SSL chain for the public key
+
+- name: Download database unload
+  get_url:
+    url: "{{ full_chain_cert }}"
+    dest: /tmp/full_chain.crt
+    mode: 0744
+  when:
+    - full_chain_cert is defined
+
+- name: Merge cert with chain
+  command: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    api_full_chain: "/tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    ui_full_chain: "{{ api_full_chain }}"
+  when:
+    - full_chain_cert is not defined
+
 # Add service account
 
 - name: Find out if service account already exists
