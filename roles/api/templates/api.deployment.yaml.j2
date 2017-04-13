@@ -56,7 +56,7 @@ spec:
                   key: api.auth_jwt_public_key
             - name: API_AUTH_PERMISSIONS_CLAIM_KEY
               valueFrom:
-                secretKeyRef:
+                configMapKeyRef:
                   name: dave-api
                   key: api.auth_jwt_permissions_claim_key
             - name: API_SSL
