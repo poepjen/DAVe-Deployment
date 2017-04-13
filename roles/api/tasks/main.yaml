@@ -22,7 +22,7 @@
     - full_chain_cert is defined
 
 - name: Merge cert with chain
-  raw: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
+  shell: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
   when:
     - full_chain_cert is defined
 
@@ -39,12 +39,12 @@
 # Generate the internal SSL key
 
 - name: Create the internal SSL keys
-  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
+  shell: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
   args:
     chdir: "{{ ca_dir }}"
 
 - name: Convert PKCS1 to PKCS8
-  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
   args:
     chdir: "{{ ca_dir }}"
 

@@ -9,24 +9,24 @@
 
 - name: Render internal SSL template
   template:
-    src: dave-store-manager-ssl.json.j2
-    dest: "{{ ca_dir }}/dave-store-manager-ssl.json.j2"
+    src: store-manager-ssl.json.j2
+    dest: "{{ ca_dir }}/store-manager-ssl.json"
     mode: 0744
   become: false
 
 - name: Generate and sign the service SSL certificate
-  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-store-manager.json | cfssljson -bare dave-store-manager"
+  shell: "cfssl gencert -ca ca.pem -ca-key ca-key.pem store-manager-ssl.json | cfssljson -bare store-manager-ssl"
   args:
     chdir: "{{ ca_dir }}"
 
 - name: Convert PKCS1 to PKCS8
-  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-store-manager-key.pem -out dave-store-manager-pkcs8.pem"
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in store-manager-key.pem -out store-manager-pkcs8.pem"
   args:
     chdir: "{{ ca_dir }}"
 
 - set_fact:
-   dave_store_manager_ssl_key: "{{ ca_dir }}/dave-store-manager-pkcs8.pem"
-   dave_store_manager_ssl_cert: "{{ ca_dir }}/dave-store-manager.pem"
+   dave_store_manager_ssl_key: "{{ ca_dir }}/store-manager-pkcs8.pem"
+   dave_store_manager_ssl_cert: "{{ ca_dir }}/store-manager.pem"
 
 # Render templates
 

@@ -15,7 +15,7 @@
     - full_chain_cert is defined
 
 - name: Merge cert with chain
-  raw: "cat {{ ui_cert_path }} /tmp/full_chain.crt > /tmp/ui_full_chain.crt"
+  shell: "cat {{ ui_cert_path }} /tmp/full_chain.crt > /tmp/ui_full_chain.crt"
   when:
     - full_chain_cert is defined
 

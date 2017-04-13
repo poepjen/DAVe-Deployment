@@ -16,7 +16,7 @@
 # Generate the CA
 
 - name: Create the service account
-  command: "cfssl genkey -initca ca.json | cfssljson -bare ca"
+  shell: "cfssl genkey -initca ca.json | cfssljson -bare ca"
   args:
     chdir: "{{ ca_dir }}"
 
