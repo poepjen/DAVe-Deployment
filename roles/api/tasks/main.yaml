@@ -6,6 +6,13 @@
 
 # Create full SSL chain for the public key
 
+- name: Render internal SSL template
+  template:
+    src: dave-api-ssl.json.j2
+    dest: "{{ ca_dir }}/dave-api-ssl.json.j2"
+    mode: 0744
+  become: false
+
 - name: Download database unload
   get_url:
     url: "{{ full_chain_cert }}"
@@ -100,13 +107,6 @@
   template:
     src: api.autoscaler.yaml.j2
     dest: /tmp/api.autoscaler.yaml
-    mode: 0744
-  become: false
-
-- name: Render internal SSL template
-  template:
-    src: dave-api-ssl.json.j2
-    dest: "{{ ca_dir }}/dave-api-ssl.json.j2"
     mode: 0744
   become: false
 

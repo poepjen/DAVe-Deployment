@@ -7,6 +7,13 @@
 
 # Generate the internal SSL key
 
+- name: Render internal SSL template
+  template:
+    src: dave-store-manager-ssl.json.j2
+    dest: "{{ ca_dir }}/dave-store-manager-ssl.json.j2"
+    mode: 0744
+  become: false
+
 - name: Generate and sign the service SSL certificate
   command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-store-manager.json | cfssljson -bare dave-store-manager"
   args:
@@ -86,13 +93,6 @@
   template:
     src: store-manager.autoscaler.yaml.j2
     dest: /tmp/store-manager.autoscaler.yaml
-    mode: 0744
-  become: false
-
-- name: Render internal SSL template
-  template:
-    src: dave-store-manager-ssl.json.j2
-    dest: "{{ ca_dir }}/dave-store-manager-ssl.json.j2"
     mode: 0744
   become: false
 
