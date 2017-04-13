@@ -45,6 +45,8 @@ spec:
           env:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "app=mongo,layer=db,project=dave"
+            - name: KUBE_NAMESPACE
+              value: "{{ namespace }}"
           resources:
             requests:
               cpu: 100m
