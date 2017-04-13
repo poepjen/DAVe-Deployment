@@ -4,6 +4,47 @@
 # Install DAVe-API
 ####################
 
+# Create full SSL chain for the public key
+
+- name: Download database unload
+  get_url:
+    url: "{{ full_chain_cert }}"
+    dest: /tmp/full_chain.crt
+    mode: 0744
+  when:
+    - full_chain_cert is defined
+
+- name: Merge cert with chain
+  raw: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    api_full_chain: "/tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    ui_full_chain: "{{ api_full_chain }}"
+  when:
+    - full_chain_cert is not defined
+
+# Generate the internal SSL key
+
+- name: Create the internal SSL keys
+  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- name: Convert PKCS1 to PKCS8
+  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- set_fact:
+   dave_api_ssl_key: "{{ ca_dir }}/dave-api-pkcs8.pem"
+   dave_api_ssl_cert: "{{ ca_dir }}/dave-api.pem"
+
 # Render templates
 
 - name: Generate service
@@ -68,47 +109,6 @@
     dest: "{{ ca_dir }}/dave-api-ssl.json.j2"
     mode: 0744
   become: false
-
-# Generate the internal SSL key
-
-- name: Create the internal SSL keys
-  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
-  args:
-    chdir: "{{ ca_dir }}"
-
-- name: Convert PKCS1 to PKCS8
-  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
-  args:
-    chdir: "{{ ca_dir }}"
-
-- set_fact:
-   dave_api_ssl_key: "{{ ca_dir }}/dave-api-pkcs8.pem"
-   dave_api_ssl_cert: "{{ ca_dir }}/dave-api.pem"
-
-# Create full SSL chain for the public key
-
-- name: Download database unload
-  get_url:
-    url: "{{ full_chain_cert }}"
-    dest: /tmp/full_chain.crt
-    mode: 0744
-  when:
-    - full_chain_cert is defined
-
-- name: Merge cert with chain
-  command: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
-  when:
-    - full_chain_cert is defined
-
-- set_fact:
-    api_full_chain: "/tmp/api_full_chain.crt"
-  when:
-    - full_chain_cert is defined
-
-- set_fact:
-    ui_full_chain: "{{ api_full_chain }}"
-  when:
-    - full_chain_cert is not defined
 
 # Add service account
 

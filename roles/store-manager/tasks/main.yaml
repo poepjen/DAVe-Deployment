@@ -4,6 +4,23 @@
 # Install DAVe Store Manager
 ####################
 
+
+# Generate the internal SSL key
+
+- name: Generate and sign the service SSL certificate
+  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-store-manager.json | cfssljson -bare dave-store-manager"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- name: Convert PKCS1 to PKCS8
+  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-store-manager-key.pem -out dave-store-manager-pkcs8.pem"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- set_fact:
+   dave_store_manager_ssl_key: "{{ ca_dir }}/dave-store-manager-pkcs8.pem"
+   dave_store_manager_ssl_cert: "{{ ca_dir }}/dave-store-manager.pem"
+
 # Render templates
 
 - name: Generate service
@@ -78,22 +95,6 @@
     dest: "{{ ca_dir }}/dave-store-manager-ssl.json.j2"
     mode: 0744
   become: false
-
-# Generate the internal SSL key
-
-- name: Generate and sign the service SSL certificate
-  command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-store-manager.json | cfssljson -bare dave-store-manager"
-  args:
-    chdir: "{{ ca_dir }}"
-
-- name: Convert PKCS1 to PKCS8
-  command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-store-manager-key.pem -out dave-store-manager-pkcs8.pem"
-  args:
-    chdir: "{{ ca_dir }}"
-
-- set_fact:
-   dave_store_manager_ssl_key: "{{ ca_dir }}/dave-store-manager-pkcs8.pem"
-   dave_store_manager_ssl_cert: "{{ ca_dir }}/dave-store-manager.pem"
 
 # Add service account
 
