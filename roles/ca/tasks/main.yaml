@@ -9,7 +9,7 @@
 - name: Render CA template
   template:
     src: ca.json.j2
-    dest: "{{ ca_dir }}/ca.json.j2"
+    dest: "{{ ca_dir }}/ca.json"
     mode: 0744
   become: false
 
