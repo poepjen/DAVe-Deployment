@@ -27,8 +27,8 @@
 
 - name: Generate Store Manager network policy (Other apps access to Store MAnager)
   template:
-    src: store-manager.network-policy.yaml.j2
-    dest: /tmp/store-manager.network-policy.yaml
+    src: store-manager-access.network-policy.yaml.j2
+    dest: /tmp/store-manager-access.network-policy.yaml
     mode: 0744
   become: false
 
@@ -79,7 +79,7 @@
   when: get_np|succeeded
 
 - name: Create the network policy
-  command: "kubectl --namespace {{ namespace }} create -f /tmp/dave-store-manager-access.network-policy.yaml"
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/store-manager-access.network-policy.yaml"
 
 # Add Database network policy
 
