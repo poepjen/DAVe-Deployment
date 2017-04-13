@@ -4,6 +4,31 @@
 # Install DAVe-UI
 ####################
 
+# Create full TLS chain for the public key
+
+- name: Download LE intermediarry certificates
+  get_url:
+    url: "{{ full_chain_cert }}"
+    dest: /tmp/full_chain.crt
+    mode: 0744
+  when:
+    - full_chain_cert is defined
+
+- name: Merge cert with chain
+  raw: "cat {{ ui_cert_path }} /tmp/full_chain.crt > /tmp/ui_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    ui_full_chain: "/tmp/ui_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    ui_full_chain: "{{ ui_cert_path }}"
+  when:
+    - full_chain_cert is not defined
+
 # Render templates
 
 - name: Generate service
@@ -61,31 +86,6 @@
     dest: /tmp/ui.autoscaler.yaml
     mode: 0744
   become: false
-
-# Create full TLS chain for the public key
-
-- name: Download database unload
-  get_url:
-    url: "{{ full_chain_cert }}"
-    dest: /tmp/full_chain.crt
-    mode: 0744
-  when:
-    - full_chain_cert is defined
-
-- name: Merge cert with chain
-  command: "cat {{ ui_cert_path }} /tmp/full_chain.crt > /tmp/ui_full_chain.crt"
-  when:
-    - full_chain_cert is defined
-
-- set_fact:
-    ui_full_chain: "/tmp/ui_full_chain.crt"
-  when:
-    - full_chain_cert is defined
-
-- set_fact:
-    ui_full_chain: "{{ ui_cert_path }}"
-  when:
-    - full_chain_cert is not defined
 
 # Add service account
 
