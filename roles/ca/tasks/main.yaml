@@ -18,7 +18,7 @@
 - name: Create the service account
   command: "cfssl genkey -initca ca.json | cfssljson -bare ca"
   args:
-    chdir: {{ ca_dir }}
+    chdir: "{{ ca_dir }}"
 
 - set_fact:
    ca_public_key: "{{ ca_dir }}/ca.pem"

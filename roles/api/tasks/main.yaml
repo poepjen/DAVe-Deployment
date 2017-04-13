@@ -74,12 +74,12 @@
 - name: Create the internal SSL keys
   command: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
   args:
-    chdir: {{ ca_dir }}
+    chdir: "{{ ca_dir }}"
 
 - name: Convert PKCS1 to PKCS8
   command: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
   args:
-    chdir: {{ ca_dir }}
+    chdir: "{{ ca_dir }}"
 
 - set_fact:
    dave_api_ssl_key: "{{ ca_dir }}/dave-api-pkcs8.pem"
