@@ -6,13 +6,6 @@
 
 # Create full SSL chain for the public key
 
-- name: Render internal SSL template
-  template:
-    src: dave-api-ssl.json.j2
-    dest: "{{ ca_dir }}/dave-api-ssl.json.j2"
-    mode: 0744
-  become: false
-
 - name: Download database unload
   get_url:
     url: "{{ full_chain_cert }}"
@@ -38,19 +31,26 @@
 
 # Generate the internal SSL key
 
+- name: Render internal SSL template
+  template:
+    src: dave-api-ssl.json.j2
+    dest: "{{ ca_dir }}/dave-api-ssl.json"
+    mode: 0744
+  become: false
+
 - name: Create the internal SSL keys
-  shell: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api.json | cfssljson -bare dave-api"
+  shell: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api-ssl.json | cfssljson -bare dave-api-ssl"
   args:
     chdir: "{{ ca_dir }}"
 
 - name: Convert PKCS1 to PKCS8
-  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-key.pem -out dave-api-pkcs8.pem"
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-ssl-key.pem -out dave-api-ssl-pkcs8.pem"
   args:
     chdir: "{{ ca_dir }}"
 
 - set_fact:
-   dave_api_ssl_key: "{{ ca_dir }}/dave-api-pkcs8.pem"
-   dave_api_ssl_cert: "{{ ca_dir }}/dave-api.pem"
+   dave_api_ssl_key: "{{ ca_dir }}/dave-api-ssl-pkcs8.pem"
+   dave_api_ssl_cert: "{{ ca_dir }}/dave-api-ssl.pem"
 
 # Render templates
 
