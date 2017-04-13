@@ -8,11 +8,13 @@ metadata:
     layer: api
     project: dave
 data:
-  java.opts: "-Xmx=512m"
+  java.opts: "-Xmx512m"
   log.level: "INFO"
-  http.enable: "TRUE"
-  http.compression: "TRUE"
-  http.auth: "TRUE"
-  http.cors: "TRUE"
-  http.cors_origin: "*"
-  http.jwt_permissions_claim_key: "{{ jwt_permissions_claim_key }}"
+  api.ssl: "TRUE"
+  api.ssl_client_auth: "FALSE"
+  api.compression: "TRUE"
+  api.auth: "TRUE"
+  api.auth_jwt_permissions_claim_key: "{{ jwt_permissions_claim_key }}"
+  api.cors: "TRUE"
+  api.cors_origin: "*"
+  storemanager.ssl_verify_host: "FALSE"

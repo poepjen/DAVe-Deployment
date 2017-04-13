@@ -17,9 +17,9 @@ spec:
         app: dave
         layer: frontend
         project: dave
-      annotations:
-        container.apparmor.security.beta.kubernetes.io/dave-ui: runtime/default
-        container.apparmor.seccomp.beta.kubernetes.io/dave-ui: docker/default
+      #annotations:
+      #  container.apparmor.security.beta.kubernetes.io/dave-ui: runtime/default
+      #  container.apparmor.seccomp.beta.kubernetes.io/dave-ui: docker/default
     spec:
       serviceAccount: dave-ui
       containers:
