@@ -34,7 +34,7 @@
 
 - name: Generate Database network policy (Other apps access to DB)
   template:
-    src: db-access.network-policy.yaml.j2
+    src: mongo-access.network-policy.yaml.j2
     dest: /tmp/mongo-access.network-policy.yaml
     mode: 0744
   become: false
