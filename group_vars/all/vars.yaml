@@ -51,7 +51,7 @@ ui_cert_path: ./ui.master.crt
 ##########
 
 # Internal SSL CA
-ca_dir: /tmp/
+ca_dir: ./ca-master/
 
 ##########
 # Authentication

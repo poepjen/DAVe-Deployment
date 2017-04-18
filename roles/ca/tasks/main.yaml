@@ -6,6 +6,9 @@
 
 # Render templates
 
+- name: Create CA directory
+  file: path={{ ca_dir }} state=directory
+
 - name: Render CA template
   template:
     src: ca.json.j2
@@ -15,7 +18,7 @@
 
 # Generate the CA
 
-- name: Create the service account
+- name: Generate the CA
   shell: "cfssl genkey -initca ca.json | cfssljson -bare ca"
   args:
     chdir: "{{ ca_dir }}"
