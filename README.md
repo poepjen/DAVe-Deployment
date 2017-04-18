@@ -30,6 +30,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
 | `api_dns` | Hostname of the API service | `api.snapshot.dave.dbg-devops.com` |
 | `elb_hosted_zone` | The hosted zone in which the aliased ELB load balancers are hosted (should be dependent on the AWS region) | `Z32O12XQLNTSW2` |
+| `auth_dns` | Hostname of the Auth service | `auth.dave.dbg-devops.com` |
 | `jwt_public_key` | Public key used to verify the JWT tokens | `MIIBI...DAQAB` |
 | `jwt_permissions_claim_key` | Where to find the authorization roles in the JWT key | `realm_access/roles` |
 | `api_key_path` | Path to the API private key | `./api.key` |
