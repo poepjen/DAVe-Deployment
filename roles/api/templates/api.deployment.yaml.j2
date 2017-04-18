@@ -54,6 +54,16 @@ spec:
                 secretKeyRef:
                   name: dave-api
                   key: api.auth_jwt_public_key
+            - name: API_CSRF
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.csfr
+            - name: API_CSRF_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: api.csrf_secret
             - name: API_AUTH_PERMISSIONS_CLAIM_KEY
               valueFrom:
                 configMapKeyRef:
