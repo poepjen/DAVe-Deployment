@@ -14,7 +14,7 @@
   become: false
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Download the file
 
@@ -25,7 +25,7 @@
     mode: 0744
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Copy the backup file
 
@@ -33,7 +33,7 @@
   command: "kubectl cp /tmp/mongo.backup.tar.gz {{ namespace }}/dave-mongo-0:/tmp/mongo.backup.tar.gz --container mongo"
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Copy the restore script
 
@@ -41,7 +41,7 @@
   command: "kubectl cp /tmp/mongo-restore.sh {{ namespace }}/dave-mongo-0:/tmp/mongo-restore.sh --container mongo"
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Set the restore script as executable
 
@@ -49,7 +49,7 @@
   command: "kubectl --namespace {{ namespace }} exec dave-mongo-0 -t --container mongo chmod u+x /tmp/mongo-restore.sh"
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Unpack and load the file into database
 
@@ -57,7 +57,7 @@
   command: "kubectl --namespace {{ namespace }} exec dave-mongo-0 -t --container mongo /tmp/mongo-restore.sh"
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined
 
 # Delete the restore script
 
@@ -65,4 +65,4 @@
   command: "kubectl --namespace {{ namespace }} exec dave-mongo-0 -t --container mongo rm /tmp/mongo-restore.sh"
   when:
     - db_unload_url is defined
-    - dabatase_url is undefined
+    - database_url is undefined

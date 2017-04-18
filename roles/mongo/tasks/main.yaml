@@ -13,7 +13,7 @@
     mode: 0744
   become: false
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
 
 # - name: Generate role
 #   template:
@@ -36,7 +36,7 @@
     mode: 0744
   become: false
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
 
 - name: Generate stateful set
   template:
@@ -45,7 +45,7 @@
     mode: 0744
   become: false
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
 
 # Add service account
 
@@ -54,18 +54,18 @@
   register: get_serviceaccount
   ignore_errors: true
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
 
 - name: Create the service account
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.serviceaccount.yaml"
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
     - get_serviceaccount|failed
 
 - name: Replace the service account
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.serviceaccount.yaml"
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
     - get_serviceaccount|succeeded
 
 # - name: Find out if role already exists
@@ -100,19 +100,19 @@
   command: "kubectl --namespace {{ namespace }} get service dave-mongo -o json"
   register: get_service
   ignore_errors: true
-  when: dabatase_url is undefined
+  when: database_url is not defined
 
 - name: Create the service
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.service.yaml"
   when:
     - get_service|failed
-    - dabatase_url is undefined
+    - database_url is not defined
 
 - name: Replace the service
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.service.yaml"
   when:
     - get_service|succeeded
-    - dabatase_url is undefined
+    - database_url is not defined
 
 # Add statefulset
 
@@ -121,18 +121,18 @@
   register: get_statefulset
   ignore_errors: true
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
 
 - name: Create the statefulset
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.statefulset.yaml"
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
     - get_statefulset|failed
 
 - name: Replace the statefulset
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.statefulset.yaml"
   when:
-    - dabatase_url is undefined
+    - database_url is not defined
     - get_statefulset|succeeded
 
 # Make sure the deployment is running before moving forward
@@ -143,3 +143,5 @@
   until: cmd_result.stdout.find('3') != -1
   retries: 20
   delay: 30
+  when:
+    - database_url is not defined
