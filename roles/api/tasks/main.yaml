@@ -16,12 +16,12 @@
 - name: Generate connection URL
   set_fact:
     database_connection_url: "mongodb://dave-mongo-0.dave-mongo:27017,dave-mongo-1.dave-mongo:27017,dave-mongo-2.dave-mongo:27017/?replicaSet=rs0"
-  when: dabatase_url is undefined
+  when: database_url is undefined
 
 - name: Generate connection URL
   set_fact:
     database_connection_url: "{{ database_url }}"
-  when: dabatase_url is defined
+  when: database_url is defined
 
 - name: Generate config map
   template:
