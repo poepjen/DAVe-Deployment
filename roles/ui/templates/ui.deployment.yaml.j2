@@ -44,6 +44,11 @@ spec:
                 configMapKeyRef:
                   name: dave-ui
                   key: dave.auth
+            - name: DAVE_AUTH_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-ui
+                  key: dave.auth_client_id
             - name: DAVE_HTTP_COMPRESSION
               valueFrom:
                 configMapKeyRef:
