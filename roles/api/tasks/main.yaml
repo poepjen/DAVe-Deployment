@@ -52,6 +52,14 @@
    dave_api_ssl_key: "{{ ca_dir }}/dave-api-ssl-pkcs8.pem"
    dave_api_ssl_cert: "{{ ca_dir }}/dave-api-ssl.pem"
 
+# Convert LE private key to PKCS8
+
+- name: Convert PKCS1 to PKCS8
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in {{ api_key_path }} -out /tmp/api-signed-private-key-pkcs8.key"
+
+- set_fact:
+   api_key_path_pkcs8: "/tmp/api-signed-private-key-pkcs8.key"
+
 # Render templates
 
 - name: Generate service
