@@ -212,7 +212,7 @@
   ignore_errors: true
 
 - name: Create the deployment
-  command: "kubectl --namespace {{ namespace }} create -f /tmp/api.deployment.yaml"
+  command: "kubectl --namespace {{ namespace }} create -f /tmp/api.deployDave2.0ment.yaml"
   when: get_deployment|failed
 
 - name: Replace the deployment

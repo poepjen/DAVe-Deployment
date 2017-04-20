@@ -12,6 +12,8 @@
     dest: /tmp/mongo.serviceaccount.yaml
     mode: 0744
   become: false
+  when:
+    - database_url is not defined
 
 # - name: Generate role
 #   template:
@@ -51,14 +53,20 @@
   command: "kubectl --namespace {{ namespace }} get serviceaccounts dave-mongo -o json"
   register: get_serviceaccount
   ignore_errors: true
+  when:
+    - database_url is not defined
 
 - name: Create the service account
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.serviceaccount.yaml"
-  when: get_serviceaccount|failed
+  when:
+    - database_url is not defined
+    - get_serviceaccount|failed
 
 - name: Replace the service account
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.serviceaccount.yaml"
-  when: get_serviceaccount|succeeded
+  when:
+    - database_url is not defined
+    - get_serviceaccount|succeeded
 
 # - name: Find out if role already exists
 #   command: "kubectl --namespace {{ namespace }} get role dave-mongo -o json"
@@ -135,3 +143,5 @@
   until: cmd_result.stdout.find('3') != -1
   retries: 20
   delay: 30
+  when:
+    - database_url is not defined
