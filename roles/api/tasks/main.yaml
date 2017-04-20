@@ -6,7 +6,7 @@
 
 # Create full SSL chain for the public key
 
-- name: Download database unload
+- name: Download intermediarry certificate
   get_url:
     url: "{{ full_chain_cert }}"
     dest: /tmp/full_chain.crt
@@ -25,7 +25,7 @@
     - full_chain_cert is defined
 
 - set_fact:
-    ui_full_chain: "{{ api_full_chain }}"
+    api_full_chain: "{{ api_cert_path }}"
   when:
     - full_chain_cert is not defined
 

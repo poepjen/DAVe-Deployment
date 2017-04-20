@@ -6,7 +6,7 @@
 
 # Create full TLS chain for the public key
 
-- name: Download LE intermediarry certificates
+- name: Download intermediarry certificates
   get_url:
     url: "{{ full_chain_cert }}"
     dest: /tmp/full_chain.crt
