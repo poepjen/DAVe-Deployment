@@ -78,6 +78,6 @@ database_name: DAVe-master
 # URL for connectiong to the databse. If defined, the database deployment will be skipped.
 #database_url: mongodb://mongo.default:27017/
 # URL when tared and gziped unload of the database can be doanloaded and loaded into the database
-db_unload_url: https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz
+db_unload_url: https://s3-eu-west-1.amazonaws.com/dave-demo-test-data/dave20.tar.gz
 # Path under which the actual unload files are stored in the archive
 db_unload_path: "mongo/DAVe-TTSave"
