@@ -170,7 +170,7 @@
   when: get_secret|failed
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} apply -f /tmp/ui.secret.yaml"
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/ui.secret.yaml"
   when: get_secret|succeeded
 
 # Add deployment

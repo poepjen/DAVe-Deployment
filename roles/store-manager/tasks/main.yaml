@@ -179,7 +179,7 @@
   when: get_secret|failed
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} apply -f /tmp/store-manager.secret.yaml"
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/store-manager.secret.yaml"
   when: get_secret|succeeded
 
 # Add deployment
