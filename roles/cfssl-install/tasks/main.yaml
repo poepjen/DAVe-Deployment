@@ -1,0 +1,49 @@
+---
+
+#############
+# Install CFSSL (CloudFlare SSL)
+#############
+
+- name: Download CFSSL binaries
+  get_url:
+    url: "{{ cfssl_darwin_download_path }}"
+    dest: /usr/local/bin/cfssl
+    owner: root
+    group: admin
+    mode: 0755
+    # TODO Add hash check
+  when: ansible_os_family == 'Darwin'
+  become: true
+
+- name: Download CFSSL binaries
+  get_url:
+    url: "{{ cfssl_download_path }}"
+    dest: /usr/local/bin/cfssl
+    owner: root
+    group: root
+    mode: 0755
+    # TODO Add hash check
+  when: ansible_os_family != 'Darwin'
+  become: true
+
+- name: Download CFSSLJSON binaries
+  get_url:
+    url: "{{ cfssljson_darwin_download_path }}"
+    dest: /usr/local/bin/cfssljson
+    owner: root
+    group: admin
+    mode: 0755
+    # TODO Add hash check
+  when: ansible_os_family == 'Darwin'
+  become: true
+
+- name: Download CFSSLJSON binaries
+  get_url:
+    url: "{{ cfssljson_download_path }}"
+    dest: /usr/local/bin/cfssljson
+    owner: root
+    group: root
+    mode: 0755
+    # TODO Add hash check
+  when: ansible_os_family != 'Darwin'
+  become: true

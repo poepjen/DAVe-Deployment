@@ -36,7 +36,7 @@
     mode: 0744
   become: false
   when:
-    - database_url is not defined
+    - database_url is undefined
 
 - name: Generate stateful set
   template:
@@ -45,7 +45,7 @@
     mode: 0744
   become: false
   when:
-    - database_url is not defined
+    - database_url is undefined
 
 # Add service account
 
@@ -100,19 +100,19 @@
   command: "kubectl --namespace {{ namespace }} get service dave-mongo -o json"
   register: get_service
   ignore_errors: true
-  when: database_url is not defined
+  when: database_url is undefined
 
 - name: Create the service
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.service.yaml"
   when:
     - get_service|failed
-    - database_url is not defined
+    - database_url is undefined
 
 - name: Replace the service
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.service.yaml"
   when:
     - get_service|succeeded
-    - database_url is not defined
+    - database_url is undefined
 
 # Add statefulset
 
@@ -121,18 +121,18 @@
   register: get_statefulset
   ignore_errors: true
   when:
-    - database_url is not defined
+    - database_url is undefined
 
 - name: Create the statefulset
   command: "kubectl --namespace {{ namespace }} create -f /tmp/mongo.statefulset.yaml"
   when:
-    - database_url is not defined
+    - database_url is undefined
     - get_statefulset|failed
 
 - name: Replace the statefulset
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/mongo.statefulset.yaml"
   when:
-    - database_url is not defined
+    - database_url is undefined
     - get_statefulset|succeeded
 
 # Make sure the deployment is running before moving forward

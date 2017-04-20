@@ -4,6 +4,62 @@
 # Install DAVe-API
 ####################
 
+# Create full SSL chain for the public key
+
+- name: Download database unload
+  get_url:
+    url: "{{ full_chain_cert }}"
+    dest: /tmp/full_chain.crt
+    mode: 0744
+  when:
+    - full_chain_cert is defined
+
+- name: Merge cert with chain
+  shell: "cat {{ api_cert_path }} /tmp/full_chain.crt > /tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    api_full_chain: "/tmp/api_full_chain.crt"
+  when:
+    - full_chain_cert is defined
+
+- set_fact:
+    ui_full_chain: "{{ api_full_chain }}"
+  when:
+    - full_chain_cert is not defined
+
+# Generate the internal SSL key
+
+- name: Render internal SSL template
+  template:
+    src: dave-api-ssl.json.j2
+    dest: "{{ ca_dir }}/dave-api-ssl.json"
+    mode: 0744
+  become: false
+
+- name: Create the internal SSL keys
+  shell: "cfssl gencert -ca ca.pem -ca-key ca-key.pem dave-api-ssl.json | cfssljson -bare dave-api-ssl"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- name: Convert PKCS1 to PKCS8
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in dave-api-ssl-key.pem -out dave-api-ssl-pkcs8.pem"
+  args:
+    chdir: "{{ ca_dir }}"
+
+- set_fact:
+   dave_api_ssl_key: "{{ ca_dir }}/dave-api-ssl-pkcs8.pem"
+   dave_api_ssl_cert: "{{ ca_dir }}/dave-api-ssl.pem"
+
+# Convert LE private key to PKCS8
+
+- name: Convert PKCS1 to PKCS8
+  shell: "openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in {{ api_key_path }} -out /tmp/api-signed-private-key-pkcs8.key"
+
+- set_fact:
+   api_key_path_pkcs8: "/tmp/api-signed-private-key-pkcs8.key"
+
 # Render templates
 
 - name: Generate service
@@ -13,29 +69,12 @@
     mode: 0744
   become: false
 
-- name: Generate connection URL
-  set_fact:
-    database_connection_url: "mongodb://dave-mongo-0.dave-mongo:27017,dave-mongo-1.dave-mongo:27017,dave-mongo-2.dave-mongo:27017/?replicaSet=rs0"
-  when: database_url is undefined
-
-- name: Generate connection URL
-  set_fact:
-    database_connection_url: "{{ database_url }}"
-  when: database_url is defined
-
 - name: Generate config map
   template:
     src: api.config-map.yaml.j2
     dest: /tmp/api.config-map.yaml
     mode: 0744
   become: false
-
-# - set_fact:
-#     jwt_keystore_base64_path: "{{ jwt_keystore_path }}.base64"
-
-- name: Base64 encode the JWT keystore
-  command: "base64 {{ jwt_keystore_path }}"
-  register: jwt_keystore_base64
 
 - name: Generate secret
   template:
@@ -162,7 +201,7 @@
   when: get_secret|failed
 
 - name: Replace the secret
-  command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.secret.yaml"
+  command: "kubectl --namespace {{ namespace }} replace -f /tmp/api.secret.yaml"
   when: get_secret|succeeded
 
 # Add deployment

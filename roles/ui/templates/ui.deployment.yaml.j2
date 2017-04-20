@@ -17,6 +17,9 @@ spec:
         app: dave
         layer: frontend
         project: dave
+      #annotations:
+      #  container.apparmor.security.beta.kubernetes.io/dave-ui: runtime/default
+      #  container.apparmor.seccomp.beta.kubernetes.io/dave-ui: docker/default
     spec:
       serviceAccount: dave-ui
       containers:
@@ -36,6 +39,16 @@ spec:
                 configMapKeyRef:
                   name: dave-ui
                   key: dave.api
+            - name: DAVE_AUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-ui
+                  key: dave.auth
+            - name: DAVE_AUTH_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-ui
+                  key: dave.auth_client_id
             - name: DAVE_HTTP_COMPRESSION
               valueFrom:
                 configMapKeyRef:

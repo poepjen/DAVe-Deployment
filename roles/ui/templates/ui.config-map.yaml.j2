@@ -9,4 +9,6 @@ metadata:
     project: dave
 data:
   dave.api: "https://{{ api_dns }}"
+  dave.auth: "https://{{ auth_dns }}/auth/realms/DAVe/protocol/openid-connect"
+  dave.auth_client_id: "{{ auth_client_id }}"
   http.compression: "1"

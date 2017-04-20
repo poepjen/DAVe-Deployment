@@ -1,11 +1,24 @@
 ---
 
+##########
+# Kubernetes configuration
+##########
+
 # Namespace into which the application should be deployed
 namespace: master
 
-# Release / Which tag should be used in the deployment
+##########
+# Software versions for deployment
+##########
+
+# Release / Which tag should be used in the deployment (Docker image tag, not GitHub tag)
 api_release: master
 ui_release: master
+store_manager_release: master
+
+##########
+# Domain names
+##########
 
 # Domain name for the application
 dns_zone: dbg-devops.com
@@ -15,27 +28,56 @@ api_dns: api.master.snapshot.dave.dbg-devops.com
 # Hosted zone of loadbalancers created by Kubernetes cluster (should be region dependent)
 elb_hosted_zone: Z32O12XQLNTSW2
 
-# Application secrets
-auth_salt: DAVe
+##########
+# SSL certificates for external communication
+##########
 
-# SSL certificates
-jwt_keystore_path: ./jwt.master.keystore
-jwt_keystore_password: "123456"
+# Let's Encrypt
+# If full chain cert is defined, it will be merged into the public key
+full_chain_cert: https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt
+
+letsencrypt_account_key_path: ./account.key
+acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
+# acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging
+
+# External SSL certificates
 api_key_path: ./api.master.key
 api_cert_path: ./api.master.crt
 ui_key_path: ./ui.master.key
 ui_cert_path: ./ui.master.crt
+
+##########
+# SSL certificates for internal communication
+##########
+
+# Internal SSL CA
+ca_dir: ./ca-master/
+
+##########
+# Authentication
+##########
+
+# URL of the authentication server
+auth_dns: auth.dave.dbg-devops.com
+
+# OAuth / OpenID Connect client ID
+auth_client_id: dave-ui
+
+# Key for veryfing JWT tokens
+jwt_public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmae5XwoRlK2Ew2vSPLzV7Zlnrtz0YDp3UPSvxvW+zN9dGZm38E+7ihUOQbIjvkKnK30v0QgvKDOKgwY7Ney1nwcZfZTNwkRXh1qzLGXRZYD3ZBWx9vIhPcG6DyQBGXrhYgN4RFEIBzybKARMjxfZR9y9vckK7Wd0D2bmBGk4knvzI8fRPaGTt42dmLaP1X7yT/s0DygQbHFUj4ukXR8LXYGEGpt2OHRVlb/MrIl7Ko2Ad6oSpcfjzePd6BJNjuYSczmbTVfClMbw/GFHk5icAsRJt8a2B7Fvbgcxz9kyT5p/QCTza/5qNtvf1+wl20TDw9JglF2oOPRwQlQW2MXY/QIDAQAB"
+
+# Where to find the authorization roles in the JWT key
+jwt_permissions_claim_key: "realm_access/roles"
+
+##########
+# Database
+##########
 
 # Database (MongoDB) configuration
 database_name: DAVe-master
 # URL for connectiong to the databse. If defined, the database deployment will be skipped.
 #database_url: mongodb://mongo.default:27017/
 # URL when tared and gziped unload of the database can be doanloaded and loaded into the database
-db_unload_url: https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz
+db_unload_url: https://s3-eu-west-1.amazonaws.com/dave-demo-test-data/dave20.tar.gz
 # Path under which the actual unload files are stored in the archive
 db_unload_path: "mongo/DAVe-TTSave"
-
-# Let's Encrypt
-letsencrypt_account_key_path: ./account.key
-acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
-# acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging

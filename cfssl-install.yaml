@@ -1,9 +1,9 @@
 ---
 ###########################
-# Generates keys for signing JSON Web Tokens
+# Install CFSSL utility
 ###########################
 
 - hosts: localhost
   connection: local
   roles:
-    - jwtkeystore
+    - cfssl-install

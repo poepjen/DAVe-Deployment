@@ -17,6 +17,9 @@ spec:
         app: dave
         layer: api
         project: dave
+      #annotations:
+      #  container.apparmor.security.beta.kubernetes.io/dave-api: runtime/default
+      #  container.apparmor.seccomp.beta.kubernetes.io/dave-api: docker/default
     spec:
       serviceAccount: dave-api
       containers:
@@ -36,83 +39,107 @@ spec:
                 configMapKeyRef:
                   name: dave-api
                   key: java.opts
-            - name: DAVE_LOG_LEVEL
+            - name: LOG_LEVEL
               valueFrom:
                 configMapKeyRef:
                   name: dave-api
                   key: log.level
-            - name: DAVE_DB_NAME
+            - name: API_AUTH
               valueFrom:
                 configMapKeyRef:
                   name: dave-api
-                  key: db.name
-            - name: DAVE_DB_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: db.connection_url
-            - name: DAVE_HTTP_ENABLE
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.enable
-            - name: DAVE_HTTP_COMPRESSION
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.compression
-            - name: DAVE_HTTP_AUTH
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.auth
-            - name: DAVE_HTTP_CORS
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.cors
-            - name: DAVE_HTTP_CORS_ORIGIN
-              valueFrom:
-                configMapKeyRef:
-                  name: dave-api
-                  key: http.cors_origin
-            - name: DAVE_HTTP_AUTH_SALT
+                  key: api.auth
+            - name: API_AUTH_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: http.auth_salt
-            - name: DAVE_HTTP_SSL_SERVER_PUBLIC_KEY
+                  key: api.auth_jwt_public_key
+            - name: API_CSRF
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.csfr
+            - name: API_CSRF_SECRET
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: http.public_key
-            - name: DAVE_HTTP_SSL_SERVER_PRIVATE_KEY
+                  key: api.csrf_secret
+            - name: API_AUTH_PERMISSIONS_CLAIM_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.auth_jwt_permissions_claim_key
+            - name: API_SSL
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.ssl
+            - name: API_SSL_CLIENT_AUTH
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.ssl_client_auth
+            - name: API_SSL_CERT
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: http.private_key
-            - name: DAVE_HTTP_JWT_BASE64_KEYSTORE
+                  key: api.ssl_cert
+            - name: API_SSL_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: jwt.keystore
-            - name: DAVE_HTTP_JWT_KEYSTORE_PASSWORD
+                  key: api.ssl_key
+            - name: API_COMPRESSION
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.compression
+            - name: API_CORS
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.cors
+            - name: API_CORS_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: api.cors_origin
+            - name: STOREMANAGER_HOSTNAME
+              value: dave-store-manager
+            - name: STOREMANAGER_PORT
+              value: "443"
+            - name: STOREMANAGER_SSL_KEY
               valueFrom:
                 secretKeyRef:
                   name: dave-api
-                  key: jwt.keystore_password
+                  key: storemanager.ssl_key
+            - name: STOREMANAGER_SSL_CERT
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: storemanager.ssl_cert
+            - name: STOREMANAGER_SSL_TRUST_CERTS
+              valueFrom:
+                secretKeyRef:
+                  name: dave-api
+                  key: storemanager.ssl_trust_certs
+            - name: STOREMANAGER_SSL_VERIFY_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: dave-api
+                  key: storemanager.ssl_verify_host
           ports:
-            - containerPort: 8080
+            - containerPort: 8443
               name: https
           livenessProbe:
             httpGet:
               path: /healthz
               port: 8080
-              scheme: HTTPS
+              scheme: HTTP
             initialDelaySeconds: 30
           readinessProbe:
             httpGet:
               path: /readiness
               port: 8080
-              scheme: HTTPS
+              scheme: HTTP
             initialDelaySeconds: 30

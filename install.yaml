@@ -6,10 +6,12 @@
 - hosts: localhost
   connection: local
   roles:
+    - ca
     - namespace
     - network-policy
     - ui
     - mongo
     - mongo-provisioning
+    - store-manager
     - api
     - dns-propagation

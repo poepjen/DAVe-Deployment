@@ -1,0 +1,7 @@
+---
+
+cfssl_version: "R1.2"
+cfssl_darwin_download_path: "https://pkg.cfssl.org/{{ cfssl_version }}/cfssl_darwin-amd64"
+cfssl_download_path: "https://pkg.cfssl.org/{{ cfssl_version }}/cfssl_linux-amd64"
+cfssljson_darwin_download_path: "https://pkg.cfssl.org/{{ cfssl_version }}/cfssljson_darwin-amd64"
+cfssljson_download_path: "https://pkg.cfssl.org/{{ cfssl_version }}/cfssljson_linux-amd64"
