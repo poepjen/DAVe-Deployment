@@ -8,7 +8,7 @@ metadata:
     project: dave
   namespace: {{ namespace }}
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: dave-store-manager
@@ -28,11 +28,11 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 100m
-              memory: 512Mi
-            limits:
               cpu: 500m
               memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
           env:
             - name: JAVA_OPTS
               valueFrom:

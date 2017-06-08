@@ -8,7 +8,7 @@ metadata:
     project: dave
   namespace: {{ namespace }}
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: dave-ui
@@ -31,7 +31,7 @@ spec:
               cpu: 100m
               memory: 64Mi
             limits:
-              cpu: 500m
+              cpu: 1000m
               memory: 128Mi
           env:
             - name: DAVE_REST_URL
