@@ -23,6 +23,7 @@
     url: "{{ db_unload_url }}"
     dest: /tmp/mongo.backup.tar.gz
     mode: 0744
+    force: yes
   when:
     - db_unload_url is defined
     - database_url is undefined
