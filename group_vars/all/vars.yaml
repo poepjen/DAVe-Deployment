@@ -5,16 +5,16 @@
 ##########
 
 # Namespace into which the application should be deployed
-namespace: master
+namespace: demo
 
 ##########
 # Software versions for deployment
 ##########
 
 # Release / Which tag should be used in the deployment (Docker image tag, not GitHub tag)
-api_release: master
-ui_release: material
-store_manager_release: master
+api_release: demo
+ui_release: demo
+store_manager_release: demo
 
 ##########
 # Domain names
@@ -22,8 +22,8 @@ store_manager_release: master
 
 # Domain name for the application
 dns_zone: dbg-devops.com
-ui_dns: master.snapshot.dave.dbg-devops.com
-api_dns: api.master.snapshot.dave.dbg-devops.com
+ui_dns: demo.dave.dbg-devops.com
+api_dns: api.demo.dave.dbg-devops.com
 
 # Hosted zone of loadbalancers created by Kubernetes cluster (should be region dependent)
 elb_hosted_zone: Z32O12XQLNTSW2
@@ -41,17 +41,17 @@ acme_directory: https://acme-v01.api.letsencrypt.org/directory # Production
 # acme_directory: https://acme-staging.api.letsencrypt.org/directory # Staging
 
 # External SSL certificates
-api_key_path: ./api.master.key
-api_cert_path: ./api.master.crt
-ui_key_path: ./ui.master.key
-ui_cert_path: ./ui.master.crt
+api_key_path: ./le-demo/api.key
+api_cert_path: ./le-demo/api.crt
+ui_key_path: ./le-demo/ui.key
+ui_cert_path: ./le-demo/ui.crt
 
 ##########
 # SSL certificates for internal communication
 ##########
 
 # Internal SSL CA
-ca_dir: ./ca-master/
+ca_dir: ./ca-demo/
 
 ##########
 # Authentication
@@ -74,7 +74,7 @@ jwt_permissions_claim_key: "realm_access/roles"
 ##########
 
 # Database (MongoDB) configuration
-database_name: DAVe-master
+database_name: DAVe-demo
 # URL for connectiong to the databse. If defined, the database deployment will be skipped.
 #database_url: mongodb://mongo.default:27017/
 # URL when tared and gziped unload of the database can be doanloaded and loaded into the database
