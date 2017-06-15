@@ -193,7 +193,7 @@
 - name: Verify that all pods are ready
   shell: kubectl --namespace {{ namespace }} get pods | grep "dave-ui" | grep "Running" | wc -l
   register: cmd_result
-  until: cmd_result.stdout.find('3') != -1
+  until: cmd_result.stdout.find('1') != -1
   retries: 20
   delay: 30
 
@@ -214,31 +214,31 @@
 
 # Create Route53 alias
 
-- name: Get the loadbalancer details
-  command: "kubectl --namespace {{ namespace }} get service dave-ui -o json"
-  register: get_loadbalancer
-
-- set_fact:
-    loadbalancer: "{{ get_loadbalancer.stdout | from_json }}"
-
-- set_fact:
-    loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress'][0]['hostname'] }}"
-
-# - set_fact:
-#     loadbalancer_name: "{{ loadbalancer_dns_name.split('-') }}"
+# - name: Get the loadbalancer details
+#   command: "kubectl --namespace {{ namespace }} get service dave-ui -o json"
+#   register: get_loadbalancer
 #
-# - name: Find the hosted zone of the loadbalancer
-#   ec2_elb_facts:
-#     names: "{{ loadbalancer_name[0] }}"
-#   register: elb_facts
-
-- route53:
-    command: create
-    zone: "{{ dns_zone }}"
-    record: "{{ ui_dns }}"
-    type: A
-    value: "{{ loadbalancer_dns_name }}"
-    alias: True
-    alias_hosted_zone_id: "{{ elb_hosted_zone }}"
-    alias_evaluate_target_health: False
-    overwrite: True
+# - set_fact:
+#     loadbalancer: "{{ get_loadbalancer.stdout | from_json }}"
+#
+# - set_fact:
+#     loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress'][0]['hostname'] }}"
+#
+# # - set_fact:
+# #     loadbalancer_name: "{{ loadbalancer_dns_name.split('-') }}"
+# #
+# # - name: Find the hosted zone of the loadbalancer
+# #   ec2_elb_facts:
+# #     names: "{{ loadbalancer_name[0] }}"
+# #   register: elb_facts
+#
+# - route53:
+#     command: create
+#     zone: "{{ dns_zone }}"
+#     record: "{{ ui_dns }}"
+#     type: A
+#     value: "{{ loadbalancer_dns_name }}"
+#     alias: True
+#     alias_hosted_zone_id: "{{ elb_hosted_zone }}"
+#     alias_evaluate_target_health: False
+#     overwrite: True

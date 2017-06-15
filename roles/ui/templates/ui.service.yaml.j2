@@ -5,6 +5,8 @@ metadata:
     app: dave
     layer: frontend
     project: dave
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ ui_dns }}.
   name: dave-ui
   namespace: {{ namespace }}
 spec:
