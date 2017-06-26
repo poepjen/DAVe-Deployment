@@ -15,6 +15,7 @@ namespace: master
 api_release: master
 ui_release: material
 store_manager_release: master
+margin_loader_release: master
 
 ##########
 # Domain names
@@ -68,6 +69,15 @@ jwt_public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnSurUgy/OGvmlIEOS++
 
 # Where to find the authorization roles in the JWT key
 jwt_permissions_claim_key: "realm_access/roles"
+
+##########
+# CIL broker
+##########
+
+cil_hostname: "prmbgc02.xeop.de"
+cil_port: "22201"
+cil_username: "DAVE"
+cil_password: "DAVE"
 
 ##########
 # Database
