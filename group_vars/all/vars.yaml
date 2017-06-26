@@ -74,6 +74,7 @@ jwt_permissions_claim_key: "realm_access/roles"
 # CIL broker
 ##########
 
+# Connection details for the CIL AMQP broker
 cil_hostname: "prmbgc02.xeop.de"
 cil_port: "22201"
 cil_username: "DAVE"
