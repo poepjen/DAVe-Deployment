@@ -242,26 +242,3 @@
 - name: Replace the HPA
   command: "kubectl --namespace {{ namespace }} apply -f /tmp/api.autoscaler.yaml"
   when: get_hpa|succeeded
-
-# Create Route53 alias
-
-# - name: Get the loadbalancer details
-#   command: "kubectl --namespace {{ namespace }} get service dave-api -o json"
-#   register: get_loadbalancer
-#
-# - set_fact:
-#     loadbalancer: "{{ get_loadbalancer.stdout | from_json }}"
-#
-# - set_fact:
-#     loadbalancer_dns_name: "{{ loadbalancer['status']['loadBalancer']['ingress'][0]['hostname'] }}"
-#
-# - route53:
-#     command: create
-#     zone: "{{ dns_zone }}"
-#     record: "{{ api_dns }}"
-#     type: A
-#     value: "{{ loadbalancer_dns_name }}"
-#     alias: True
-#     alias_hosted_zone_id: "{{ elb_hosted_zone }}"
-#     alias_evaluate_target_health: False
-#     overwrite: True
