@@ -13,5 +13,6 @@
     - mongo
     - mongo-provisioning
     - store-manager
+    - margin-loader
     - api
     - dns-propagation

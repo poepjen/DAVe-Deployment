@@ -26,6 +26,7 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `api_release` | Which Docker image tag should be used in the deployment of the API | `1.0.0` |
 | `ui_release` | Which Docker image tag should be used in the deployment of the UI | `1.0.0` |
 | `store_manager_release` | Which Docker image tag should be used in the deployment of the Store Manager | `1.0.0` |
+| `margin_loader_release` | Which Docker image tag should be used in the deployment of the Margin Loader | `1.0.0` |
 | `dns_zone` | Hosted DNS zone which has to exist in Route53 | `dbg-devops.com` |
 | `ui_dns` | Hostname of the UI | `snapshot.dave.dbg-devops.com` |
 | `api_dns` | Hostname of the API service | `api.snapshot.dave.dbg-devops.com` |
@@ -43,6 +44,10 @@ The configuration is in `group_vars/all/vars.yaml`. It configures different deta
 | `database_url` | MongoDB database connection URL. If not defined, it will be generated to link to MongoDB deployed by this tooling. If defined, the MongoDB deployment will be skipped. | |
 | `db_unload_url` | Path to tar.gz file with the database unload which should be loaded. If not set, only empty database will be created | `https://github.com/Deutsche-Boerse-Risk/DAVe/raw/master/mongo/mongo.tar.gz` |
 | `db_unload_path` | Path under which the actual unload files are stored in the archive | `mongo/DAVe-TTSave` |
+| `cil_hostname` | Hostname where the CIL AMQP broker is running | `my-amqp-broker` |
+| `cil_port` | Port where the CIL AMQP broker is listening | `5672` |
+| `cil_username` | Username for connecting to the CIL AMQP broker | `DAVE` |
+| `cil_password` | Password for connecting to the CIL AMQP broker | |
 
 Following configuration is needed only for signing the certificates with Let's Encrypt:
 
