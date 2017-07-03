@@ -58,23 +58,3 @@
 - name: Delete the service account
   command: "kubectl --namespace {{ namespace }} delete serviceaccounts dave-api"
   when: get_serviceaccount|succeeded
-
-# Delete the Route53 DNS record
-
-- route53:
-      command: get
-      zone: "{{ dns_zone }}"
-      record: "{{ api_dns }}"
-      type: A
-  register: route53
-
-- route53:
-    command: delete
-    zone: "{{ dns_zone }}"
-    record: "{{ api_dns }}"
-    value: "{{ route53.set.value }}"
-    type: A
-    alias: True
-    alias_hosted_zone_id: "{{ route53.set.alias_hosted_zone_id }}"
-    overwrite: True
-  when: route53.set.record is defined
