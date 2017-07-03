@@ -10,7 +10,7 @@
 
 # Wait for API
 
-- name: Vertify that API DNS is propagated
+- name: Verify that API DNS is propagated
   shell: "nslookup {{ api_dns }}"
   register: api_lookup
   until: api_lookup|succeeded
@@ -19,7 +19,7 @@
 
 # Wait for UI
 
-- name: Vertify that UI DNS is propagated
+- name: Verify that UI DNS is propagated
   shell: "nslookup {{ ui_dns }}"
   register: ui_lookup
   until: ui_lookup|succeeded
