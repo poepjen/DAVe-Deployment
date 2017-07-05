@@ -26,9 +26,6 @@ dns_zone: dbg-devops.com
 ui_dns: master.snapshot.dave.dbg-devops.com
 api_dns: api.master.snapshot.dave.dbg-devops.com
 
-# Hosted zone of loadbalancers created by Kubernetes cluster (should be region dependent)
-elb_hosted_zone: Z32O12XQLNTSW2
-
 ##########
 # SSL certificates for external communication
 ##########
